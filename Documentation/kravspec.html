@@ -1,0 +1,517 @@
+<h2><font style="font-size: 15pt">Kravspecifikation : projekttitel creepypastaUniversse</font></h2>
+
+<p style="margin-bottom: 0cm">v.0.1</p>
+
+<p style="margin-bottom: 0cm">2014-09-21<br />
+av: Lowe Raivio<br />
+<br />
+intro:&nbsp;<br />
+En community f&ouml;r sp&ouml;khistorier, st&ouml;d f&ouml;r flera spr&aring;k, uppladdning, favoritmarkeringar etc.</p>
+
+<p>&nbsp;</p>
+
+<table border="1" bordercolor="#000000" cellpadding="4" cellspacing="0" width="100%">
+	<colgroup>
+		<col width="195*" />
+		<col width="7*" />
+		<col width="54*" />
+	</colgroup>
+	<tbody>
+		<tr valign="TOP">
+			<td bgcolor="#cccccc" width="76%">
+			<p>Index namn</p>
+			</td>
+			<td bgcolor="#cccccc" colspan="2" width="24%">
+			<p>sidnummer</p>
+			</td>
+		</tr>
+		<tr valign="TOP">
+			<td width="76%">
+			<p>UC1-4: Inloggningskrav</p>
+			</td>
+			<td width="3%">
+			<p>s.</p>
+			</td>
+			<td width="21%">
+			<p>3&rarr;6</p>
+			</td>
+		</tr>
+		<tr valign="TOP">
+			<td width="76%">
+			<p>UC5-6: Historiehantering och skapning</p>
+			</td>
+			<td width="3%">
+			<p>s.</p>
+			</td>
+			<td width="21%">
+			<p>7&rarr;8</p>
+			</td>
+		</tr>
+		<tr valign="TOP">
+			<td width="76%">
+			<p>UC7: L&auml;sa en historia</p>
+			</td>
+			<td width="3%">
+			<p>s.</p>
+			</td>
+			<td sdnum="1053;" sdval="9" width="21%">
+			<p>9</p>
+			</td>
+		</tr>
+		<tr valign="TOP">
+			<td width="76%">
+			<p>UC8-9: Hantering av ryggs&auml;cken</p>
+			</td>
+			<td width="3%">
+			<p>s.</p>
+			</td>
+			<td width="21%">
+			<p>10&rarr;11</p>
+			</td>
+		</tr>
+		<tr valign="TOP">
+			<td width="76%">
+			<p>UC10-13: Mer om l&auml;sning, betyg, kommentarer = &rdquo;b&auml;ttre upplevelser&rdquo;</p>
+			</td>
+			<td width="3%">
+			<p>s.</p>
+			</td>
+			<td width="21%">
+			<p>12&rarr;15</p>
+			</td>
+		</tr>
+		<tr valign="TOP">
+			<td width="76%">
+			<p>UC14-15: Om spr&aring;k och &ouml;vers&auml;ttningar</p>
+			</td>
+			<td width="3%">
+			<p>s.</p>
+			</td>
+			<td width="21%">
+			<p>16&rarr;17</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always"><strong>System krav</strong>:<br />
+- Snabbt, systemet m&aring;ste kunna hantera anv&auml;ndare utan att upplevas som sakta.<br />
+- Anv&auml;ndarv&auml;nligt<br />
+&gt;- Visar felmeddelande/Guidning<br />
+&gt;- Hj&auml;lper anv&auml;ndaren att &rdquo;skriva&rdquo; r&auml;tt (ex tar bort mellanslag i slut av l&ouml;senord)</p>
+
+<p style="margin-bottom: 0cm">- S&auml;kerhet<br />
+&gt;- Skydda mot SQL injections<br />
+&gt;-&nbsp;Javascript injections<br />
+&gt;- L&ouml;senordskryptering (blowfish)<br />
+&gt;- Sessions hijacking skydd..<br />
+&gt;- F&ouml;rhindra manipulation av kakor</p>
+
+<p style="margin-bottom: 0cm">- Lagring<br />
+&gt;- M&aring;ste kunna lagra genom databas<br />
+&nbsp;</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always"><strong>UseCase 1</strong><br />
+F&ouml;rkrav:<br />
+-UseCase 4 : anv&auml;ndaren &auml;r registrerad<br />
+<br />
+HuvudScenario: verifiera anv&auml;ndaren</p>
+
+<p style="margin-bottom: 0cm">1. Anv&auml;ndaren vill logga in<br />
+2. Systemet beg&auml;r inloggnings information och erbjuder &rdquo;kom ih&aring;g mig&rdquo;<br />
+3. Anv&auml;ndaren anger inloggnings informationen (anv&auml;ndarnamn + l&ouml;senord)</p>
+
+<p style="margin-bottom: 0cm">4. Systemet kontrollerar uppgifterna och sl&auml;pper in anv&auml;ndaren<br />
+<br />
+Alternativa scenarion:</p>
+
+<p style="margin-bottom: 0cm">2a. Systemet erbjuder inloggning via Facebook/Google<br />
+&gt;1.Anv&auml;ndaren anger facebook/google uppgifter<br />
+&gt;2. Systemet kollar med facebook/google apiet att uppgifterna st&auml;mmer<br />
+&gt;3. forts&auml;tt p&aring; huvudscenario 4.</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">3a. Anv&auml;ndaren v&auml;ljer &rdquo;Kom ih&aring;g mig&rdquo;<br />
+&gt;1. anv&auml;ndaren loggas in, cookies s&auml;tts s&aring; systemet kommer ih&aring;g anv&auml;ndaren tills n&auml;sta g&aring;ng.</p>
+
+<p style="margin-bottom: 0cm"><br />
+4a. De angivna uppgifterna st&auml;mmer ej<br />
+&gt;1. Systemet presenterar felmeddelande, l&ouml;sning<br />
+&gt;2. b&ouml;rjar om p&aring; steg 2 av huvudscenariot.<br />
+&nbsp;</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always">UseCase 2:<br />
+F&ouml;rkrav:<br />
+-UseCase 1 : Anv&auml;ndaren &auml;r redan inloggad.</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">huvudscenario : Logga ut en verifierad anv&auml;ndare<br />
+1. B&ouml;rjar n&auml;r anv&auml;ndaren vill logga ut.<br />
+2. Systemet presenterar utloggningsmetod<br />
+3. Anv&auml;ndaren utf&ouml;r utloggning genom metoden.<br />
+4. Systemet &auml;ndrar status p&aring; anv&auml;ndaren till utloggad<br />
+&nbsp;</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always">UseCase 3</p>
+
+<p style="margin-bottom: 0cm">F&ouml;rkrav:</p>
+
+<p style="margin-bottom: 0cm">- UseCase 1.3a: Anv&auml;ndaren har loggat in med &rdquo;Kom ih&aring;g mig&rdquo; i bockad<br />
+&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Huvudscenario: Anv&auml;ndaren loggas in automatiskt<br />
+1. Startar n&auml;r anv&auml;ndaren bes&ouml;ker sidan<br />
+2. Systemet verifierar uppgifterna och loggar in automatiskt<br />
+&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Alternativa scenarios:<br />
+2a. Uppgifterna st&auml;mmer inte<br />
+1. Systemet presenterar inloggningsformul&auml;r<br />
+2b. Uppgifterna &auml;r f&ouml;r gamla<br />
+2. Systemet presenterar inloggningsformul&auml;r<br />
+&nbsp;</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always">UseCase 4</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Huvudscenario: Anv&auml;ndaren registrerar sig p&aring; sidan<br />
+1. Startar n&auml;r anv&auml;ndaren vill registrera sig.<br />
+2. Systemet presenterar registrerings alternativen : Google/Facebook eller manuell registrering<br />
+3. Anv&auml;ndaren v&auml;ljer alternativ och fyller i n&ouml;dv&auml;ndiga uppgifter<br />
+4. Systemet kontrollerar uppgifterna och registrerar anv&auml;ndaren<br />
+&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Alternativa scenarios:<br />
+4a. Uppgifterna blir inte godk&auml;nda<br />
+1. Systemet presenterar felmeddelande och det valda registreringsformul&auml;ret<br />
+2. forts&auml;tt p&aring; UC4.3</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Scenario detaljer:</p>
+
+<p style="margin-bottom: 0cm">-Under registreringen s&aring; m&aring;ste anv&auml;ndaren bekr&auml;fta anv&auml;ndning av cookies</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always">UseCase 5</p>
+
+<p style="margin-bottom: 0cm">F&ouml;rkrav:</p>
+
+<p style="margin-bottom: 0cm">- UseCase 1: Anv&auml;ndare &auml;r inloggad<br />
+&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Huvudscenario: Anv&auml;ndare l&auml;gger in en historia<br />
+1. Startar n&auml;r anv&auml;ndaren vill l&auml;gga till en historia<br />
+2. Systemet presenterar en redigeringsbox och/eller filuppladdning<br />
+3. Anv&auml;ndaren &ouml;verl&auml;mnar sin historia</p>
+
+<p style="margin-bottom: 0cm">4. Systemet sparar historian och g&ouml;r den tillg&auml;nglig p&aring; hemsidan<br />
+&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Alternativa scenarios:<br />
+3a. Anv&auml;ndaren r&aring;kar uppdatera(f5:a) sidan innan historien blivit mottagen av systemet<br />
+1. Redigeringssidan laddas om och presenterar historien som inte skickades<br />
+2. Anv&auml;ndaren &ouml;verl&auml;mnar historien<br />
+3b. Anv&auml;ndaren l&auml;gger upp historia genom textfil<br />
+2. Textfilen tolkas och matas in i redigeringsboxen f&ouml;r vidare redigering.</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always">UseCase 6</p>
+
+<p style="margin-bottom: 0cm">F&ouml;rkrav:</p>
+
+<p style="margin-bottom: 0cm">-Usecase 1: anv&auml;ndaren &auml;r inloggad<br />
+<br />
+Huvudscenario: Anv&auml;ndaren vill hantera sina historier</p>
+
+<p style="margin-bottom: 0cm">1. B&ouml;rjar n&auml;r anv&auml;ndaren vill hantera sin historier<br />
+2. Systemet presenterar alla anv&auml;ndarens historier samt redigeringsalternativ</p>
+
+<p style="margin-bottom: 0cm">3. Anv&auml;ndaren v&auml;ljer historia och redigeringsalternativ samt bekr&auml;ftar &auml;ndring<br />
+4. Systemet fr&aring;gar anv&auml;ndaren om den &auml;r s&auml;ker p&aring; &auml;ndringarna<br />
+5. Anv&auml;ndaren godk&auml;nner<br />
+<br />
+Alternativa scenarion:<br />
+3a. Anv&auml;ndaren backar ur<br />
+1. Systemet fr&aring;gar om han inte vill spara &auml;ndringarna<br />
+2. Anv&auml;ndaren v&auml;ljer om han ska spara eller inte spara &auml;ndringarna</p>
+
+<p style="margin-bottom: 0cm">5a. Anv&auml;ndaren godk&auml;nner inte &auml;ndring<br />
+1. Systemet &aring;terst&auml;ller till hur det var innan &auml;ndringen gjordes.<br />
+<br />
+<br />
+Scenario detaljer:<br />
+Scenariot t&auml;cker:<br />
+- Redigering av historier<br />
+- Borttagning av historier<br />
+- L&aring;sning av historier (inga andra kan l&auml;sa den, se den, komma &aring;t den)</p>
+
+<p style="margin-bottom: 0cm"><br />
+&nbsp;</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always">UseCase 7<br />
+&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Huvudscenario: anv&auml;ndare vill l&auml;sa en historia<br />
+1. B&ouml;rjar n&auml;r anv&auml;ndaren vill l&auml;sa en historia</p>
+
+<p style="margin-bottom: 0cm">2. Systemet presenterar lista med alla historier</p>
+
+<p style="margin-bottom: 0cm">3. Anv&auml;ndaren v&auml;ljer historia<br />
+4. Systemet presenterar vald historia<br />
+<br />
+Alternativa scenarion:<br />
+2a. Systemet presenterar en lista med historier en annan anv&auml;ndare har sparat<br />
+1. forts&auml;tt usecase 7.3<br />
+2b. Systemet presenterar en lista med historier baserat p&aring; vilka taggar anv&auml;ndaren har angivit<br />
+1. forts&auml;tt usecase 7.3<br />
+2c. Systemet presenterar en lista med historier baserat p&aring; genre<br />
+1. forts&auml;tt usecase 7.3</p>
+
+<p style="margin-bottom: 0cm"><br />
+3a. Anv&auml;ndaren v&auml;ljer att sortera listan (efter betyg, f&ouml;rfattare, l&auml;ngd, kommentarer)</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always">UseCase 8<br />
+F&ouml;rkrav:<br />
+-UseCase 1 : Anv&auml;ndaren &auml;r redan inloggad.</p>
+
+<p style="margin-bottom: 0cm">-UseCase 7: anv&auml;ndare har en vald historia<br />
+<br />
+Huvudscenario:Anv&auml;ndare vill spara historia i sin &rdquo;ryggs&auml;ck&rdquo;</p>
+
+<p style="margin-bottom: 0cm">1. B&ouml;rjar n&auml;r anv&auml;ndaren vill l&auml;gga till en historia i ryggs&auml;cken<br />
+2. Systemet presenterar metod att l&auml;gga till vald historia<br />
+3. Anv&auml;ndaren godk&auml;nner</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Scenario detaljer:<br />
+-&rdquo;ryggs&auml;ck&rdquo; &auml;r individuellt f&ouml;r varje anv&auml;ndare, d&auml;r kan den spara ner historier (ungef&auml;r som bokm&auml;rkning...)</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always">UseCase 9</p>
+
+<p style="margin-bottom: 0cm">F&ouml;rkrav:</p>
+
+<p style="margin-bottom: 0cm">-UseCase 1 : Anv&auml;ndaren &auml;r redan inloggad.<br />
+<br />
+Huvudscenario: Anv&auml;ndaren vill hantera historier i ryggs&auml;cken</p>
+
+<p style="margin-bottom: 0cm">1. B&ouml;rjar n&auml;r anv&auml;ndaren vill ta bort en historia fr&aring;n ryggs&auml;cken<br />
+2. Systemet presenterar listan &ouml;ver historier i ryggs&auml;cken<br />
+3. Anv&auml;ndaren v&auml;ljer historia att hantera<br />
+4. Systemet presenterar vilka hanteringar som kan g&ouml;ras<br />
+5. Anv&auml;ndaren utf&ouml;r hantering och sparar<br />
+6. Systemet bekr&auml;ftar och slutf&ouml;r &auml;ndringar</p>
+
+<p style="margin-bottom: 0cm"><br />
+Alternativa scenarion:<br />
+5a. Anv&auml;ndaren utf&ouml;r &auml;ndringar men v&auml;ljer att inte spara<br />
+1. inga &auml;ndringar g&ouml;rs</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Scenario detaljer:<br />
+Scenariot t&auml;cker:<br />
+- Borttagning av historier<br />
+- Synlighet av historier (om andra kan se att den finns p&aring; anv&auml;ndarens lista)<br />
+- Po&auml;ngtilldelning av historier<br />
+- Delning av historier (Facebook/Google/Tumblr, email)</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always">UseCase 10<br />
+F&ouml;rkrav:</p>
+
+<p style="margin-bottom: 0cm">-UseCase 7: anv&auml;ndaren har valt en historia</p>
+
+<p style="margin-bottom: 0cm">-UseCase 1: anv&auml;ndaren &auml;r inloggad<br />
+<br />
+Huvudscenario: Anv&auml;ndaren vill ge betyg till en historia<br />
+1. B&ouml;rjar n&auml;r anv&auml;ndaren har l&auml;st en historia och vill ge betyg till den<br />
+2. Systemet presenterar ett po&auml;ngtilldelningssystem<br />
+3. Anv&auml;ndaren anger fr&aring;n en skala fr&aring;n 1-10 hur den k&auml;nde f&ouml;r historien i ett antal kategorier.</p>
+
+<p style="margin-bottom: 0cm">4. Systemet tar emot bed&ouml;mningen och p&aring;verkar betyget p&aring; historien.</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Alternativa scenarion:</p>
+
+<p style="margin-bottom: 0cm">3a. Anv&auml;ndaren vill inte ange ett betyg p&aring; alla kategorier<br />
+1. De kategorier som inte v&auml;ljs ignoreras i den sammansatta po&auml;ngen som systemet tilldelar historien.</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">3b. Anv&auml;ndaren v&auml;ljer att ist&auml;llet ge historien ett gemensamt betyg (ist&auml;llet f&ouml;r, per kategori)<br />
+1. De kategorier som historien g&aring;r under, f&aring;r samma betyg som det gemensamma betyget<br />
+(Obs. spr&aring;k kvalitet &auml;r alltid en del i denna bed&ouml;mning )</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">4a. Anv&auml;ndaren &auml;r inte inloggad<br />
+1. Systemet fr&aring;gar om anv&auml;ndaren vill logga in f&ouml;r att verkst&auml;lla sitt betyg, genom Facebook/Google eller manuell registrering/inloggnin</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Scenario detaljer:<br />
+-&rdquo;kategorier&rdquo;, det finns ett antal kategorier. Varje kategori till en historia kan f&aring; po&auml;ng, exempel p&aring; kategorier :<br />
+- Sp&auml;nning<br />
+- Gore<br />
+- Spr&aring;k (kvalitet)<br />
+- L&auml;skig</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always">UseCase 11</p>
+
+<p style="margin-bottom: 0cm">F&ouml;rkrav:</p>
+
+<p style="margin-bottom: 0cm">-UseCase 7: anv&auml;ndaren har valt en historia<br />
+<br />
+Huvudscenario: Anv&auml;ndaren vill justera vyn &ouml;ver historian<br />
+1. B&ouml;rjar n&auml;r anv&auml;ndaren vill &auml;ndra inst&auml;llningar &ouml;ver vyn<br />
+2. Systemet presenterar alternativ som &auml;ndrar vyns beteende.<br />
+3. Anv&auml;ndaren g&ouml;r de &ouml;nskningar den k&auml;nner f&ouml;r och bekr&auml;ftar<br />
+4. Systemet sparar &auml;ndringar f&ouml;r sessionen<br />
+<br />
+alternativa scenarion:</p>
+
+<p style="margin-bottom: 0cm">4a. Systemet sparar ner &auml;ndringar hos anv&auml;ndaren<br />
+F&ouml;rkrav:<br />
+-UseCase 1: anv&auml;ndaren &auml;r inloggad<br />
+1.N&auml;sta g&aring;ng anv&auml;ndaren bes&ouml;ker sidan s&aring; &auml;r &auml;ndringarna samma som senaste &auml;ndringen.<br />
+&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Scenario detaljer:<br />
+-Justeringar t&auml;cker:</p>
+
+<p style="margin-bottom: 0cm">-TextF&auml;rg<br />
+-TextStorlek</p>
+
+<p style="margin-bottom: 0cm">-Bakgrundsf&auml;rg<br />
+-Radavst&aring;nd<br />
+-L&auml;sl&auml;ge (dimmar ut allting, f&ouml;rutom l&auml;savdelningen, till en vald procent s&aring; man ej blir distraherad.</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always">UseCase 12</p>
+
+<p style="margin-bottom: 0cm">F&ouml;rkrav:</p>
+
+<p style="margin-bottom: 0cm">-UseCase 1: Anv&auml;ndaren m&aring;ste vara inloggad</p>
+
+<p style="margin-bottom: 0cm">-UseCase 7: anv&auml;ndaren har valt en historia<br />
+<br />
+Huvudscenario: Anv&auml;ndaren vill kommentera en historia<br />
+1. b&ouml;rjar n&auml;r anv&auml;ndaren l&auml;st en historia den vill kommentera<br />
+2. Systemet presenterar kommentarsbox</p>
+
+<p style="margin-bottom: 0cm">3. Anv&auml;ndaren fyller i en kommentar och skickar in</p>
+
+<p style="margin-bottom: 0cm">4. Systemet presenterar kommentaren samt vem som skrivit den<br />
+<br />
+alternativa scenarion:</p>
+
+<p style="margin-bottom: 0cm">4a. Anv&auml;ndaren har ocks&aring; betygsatt historien<br />
+F&ouml;rkrav:</p>
+
+<p style="margin-bottom: 0cm">-UseCase 10 : anv&auml;ndaren har betygsatt historien<br />
+1. Systemet presenterar kommentaren, vem som skrivit den samt genomsnittet av betyget<br />
+&nbsp;</p>
+
+<p style="margin-bottom: 0cm">4b. Anv&auml;ndaren &auml;r inte inloggad<br />
+1. Systemet presenterar felmeddelande och fr&aring;gar anv&auml;ndaren om inloggning/registrering via Facebook/Google eller manuell.</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always">UseCase 13<br />
+F&ouml;rkrav:</p>
+
+<p style="margin-bottom: 0cm">-UseCase 7: anv&auml;ndaren har valt en historia</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Huvudscenario: anv&auml;ndaren vill aktivera musik under l&auml;sning</p>
+
+<p style="margin-bottom: 0cm">1. B&ouml;rjar n&auml;r anv&auml;ndaren vill s&auml;tta p&aring; musik<br />
+2. Systemet presenterar musik uppspelning genom Youtube genom spellistor<br />
+3. Anv&auml;ndaren v&auml;ljer en av spellistorna som finns p&aring; sidan<br />
+4. Systemet s&auml;tter ig&aring;ng musik fr&aring;n den listan</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Alternativa scenarion:</p>
+
+<p style="margin-bottom: 0cm">3a. Anv&auml;ndaren vill l&auml;gga lyssna fr&aring;n egen spellista<br />
+1. Systemet efterfr&aring;ga url till listan<br />
+2. anv&auml;ndaren anger url<br />
+3. systemet spelar upp fr&aring;n vald lista.</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always">UserCase 14</p>
+
+<p style="margin-bottom: 0cm">F&ouml;rkrav:</p>
+
+<p style="margin-bottom: 0cm">-UseCase 7: anv&auml;ndaren har valt en historia</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Huvudscenario: Anv&auml;ndaren vill byta spr&aring;k<br />
+1. b&ouml;rjar n&auml;r anv&auml;ndaren vill l&auml;sa p&aring; ett annat spr&aring;k</p>
+
+<p style="margin-bottom: 0cm">2. Systemet presenterar de spr&aring;k som historien finns tillg&auml;nglig p&aring;<br />
+3. Anv&auml;ndaren v&auml;ljer &ouml;nskad &ouml;versatt version<br />
+4. Systemet h&auml;mtar en annan version av historien</p>
+
+<p style="margin-bottom: 0cm"><br />
+Alternativa Scenarion:</p>
+
+<p style="margin-bottom: 0cm">2a. Det finns inga mer spr&aring;k &auml;n det spr&aring;ket historien var skriven p&aring;.<br />
+1. Anv&auml;ndaren f&aring;r ingen valm&ouml;jlighet och historien blir inte ersatt.</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Scenariodetaljer:<br />
+-Dom &ouml;versatta historierna som presenteras, presenteras med betyg<br />
+-Alla &ouml;vers&auml;ttningar f&aring;r ett individuellt betyg som symboliserar kvaliteten av &ouml;vers&auml;ttningen.</p>
+
+<p style="margin-bottom: 0cm; page-break-before: always">UserCase 15</p>
+
+<p style="margin-bottom: 0cm">F&ouml;rkrav:</p>
+
+<p style="margin-bottom: 0cm">-UseCase 1: Anv&auml;ndaren m&aring;ste vara inloggad</p>
+
+<p style="margin-bottom: 0cm">-UseCase 7: anv&auml;ndaren har valt en historia</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Huvudscenario: Anv&auml;ndaren vill skapa st&ouml;d f&ouml;r nytt spr&aring;k</p>
+
+<p style="margin-bottom: 0cm">1. b&ouml;rjar n&auml;r anv&auml;ndaren antingen vill l&auml;sa p&aring; ett annat spr&aring;k eller bara &ouml;vers&auml;tta en historia.<br />
+2. Systemet presenterar vilka spr&aring;k som finns tillg&auml;ngliga av historien<br />
+3. Anv&auml;ndaren v&auml;ljer att skapa en ny version av historian<br />
+4. Systemet fr&aring;gar vilket spr&aring;k den vill &ouml;vers&auml;tta till<br />
+5. anv&auml;ndaren v&auml;ljer &ouml;nskat spr&aring;k fr&aring;n en lista och f&aring;r upp tv&aring; kolumner<br />
+-Kolumn 1: inneh&aring;ller orginalhistorien<br />
+-Kolumn 2: inneh&aring;ller en &ouml;versatt version av den historien (google translate API)<br />
+6. Systemet erbjuder redigering av kolumn2 f&ouml;r att r&auml;tta till fel som blir med Google translate.<br />
+7. Anv&auml;ndaren sparar n&auml;r redigeringen &auml;r klar.</p>
+
+<p style="margin-bottom: 0cm">8. Systemet l&auml;gger till &ouml;vers&auml;ttningen i historiens &ouml;vers&auml;ttningar</p>
+
+<p style="margin-bottom: 0cm"><br />
+Alternativa scenarios:<br />
+8a. F&ouml;rfattare har satt en sp&auml;rr p&aring; historien som kr&auml;ver f&ouml;rfattarens godk&auml;nnande.<br />
+1. Systemet presenterar f&ouml;rklaring om l&auml;get till anv&auml;ndaren<br />
+2. anv&auml;ndaren f&aring;r v&auml;nta p&aring; godk&auml;nnande fr&aring;n f&ouml;rfattaren.<br />
+<br />
+3a. F&ouml;rfattaren har satt en sp&auml;rr p&aring; sin historia som f&ouml;rbjuder alla sorters &ouml;vers&auml;ttningar<br />
+1. Anv&auml;ndaren f&aring;r inte valet att &ouml;vers&auml;tta historien.</p>
+
+<p style="margin-bottom: 0cm">&nbsp;</p>
+
+<p style="margin-bottom: 0cm">Scenariodetaljer:</p>
+
+<p style="margin-bottom: 0cm">-Sp&auml;rren f&ouml;rfattaren kan s&auml;tta varierar<br />
+-Sp&auml;rr f&ouml;r &ouml;vers&auml;ttning till samma spr&aring;k (r&auml;ttning)<br />
+-Sp&auml;rr f&ouml;r &ouml;vers&auml;ttning till andra spr&aring;k<br />
+-Sp&auml;rr som till&aring;ter &ouml;vers&auml;ttning efter att f&ouml;rfattaren gett godk&auml;nnande.<br />
+-Sp&auml;rrar visas redan innan en &ouml;vers&auml;ttning p&aring;b&ouml;rjas.</p>
