@@ -1,0 +1,12 @@
+-- Lägg till medlem
+-- INSERT INTO member (firstName, lastName, password)
+-- values('Anki', "Baivio", "mypass");
+
+
+-- lägg till story till medlem
+-- INSERT INTO story (memberID, story)
+-- values(7, "Once Upon a cool horse I road to the moon");
+
+-- lägg till story till medlems backpack
+-- INSERT INTO storyInBackpack (memberID, storyID)
+-- values(7, 5);
