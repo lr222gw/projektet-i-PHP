@@ -10,3 +10,369 @@
 -- lägg till story till medlems backpack
 -- INSERT INTO storyInBackpack (memberID, storyID)
 -- values(7, 5);
+
+-- lade in detaljtyper
+-- INSERT INTO detailType (typeOfDetailType)
+-- values("author");
+
+-- INSERT INTO detailType (typeOfDetailType)
+-- values("co-author");
+
+-- Lade in commentar 
+-- INSERT INTO comment (storyID, memberID, comment)
+-- values(5,7, "ascoolt")
+
+-- lade in språktyp
+-- INSERT INTO langType (typeOfLangType)
+-- values("EN");# 1 rad påverkad.
+
+-- INSERT INTO langType (typeOfLangType)
+-- values("SV");# 1 rad påverkad.
+
+-- INSERT INTO langType (typeOfLangType)
+-- values("DE");# 1 rad påverkad.
+
+-- INSERT INTO langType (typeOfLangType)
+-- values("FR");# 1 rad påverkad.
+
+-- INSERT INTO langType (typeOfLangType)
+-- values("ES");# 1 rad påverkad.
+
+-- INSERT INTO langType (typeOfLangType)
+-- values("RU");# 1 rad påverkad.
+
+
+-- lade in översatt historia
+-- INSERT INTO storyTranslation (storyID, memberID, langTypeID, translatedStory)
+-- values (5,7,1, "This is an english Story")
+
+-- lägger in scoreValues
+-- INSERT INTO scoreValue (scoreValue)
+-- values (1);# 1 rad påverkad.
+
+-- INSERT INTO scoreValue (scoreValue)
+-- values (2);# 1 rad påverkad.
+
+-- INSERT INTO scoreValue (scoreValue)
+-- values (3);# 1 rad påverkad.
+
+-- INSERT INTO scoreValue (scoreValue)
+-- values (4);# 1 rad påverkad.
+
+-- INSERT INTO scoreValue (scoreValue)
+-- values (5);# 1 rad påverkad.
+
+-- INSERT INTO scoreValue (scoreValue)
+-- values (6);# 1 rad påverkad.
+
+-- INSERT INTO scoreValue (scoreValue)
+-- values (7);# 1 rad påverkad.
+
+-- INSERT INTO scoreValue (scoreValue)
+-- values (8);# 1 rad påverkad.
+
+-- INSERT INTO scoreValue (scoreValue)
+-- values (9);# 1 rad påverkad.
+
+-- INSERT INTO scoreValue (scoreValue)
+-- values (10);# 1 rad påverkad.
+
+-- Lade till ScoreTypes
+-- INSERT INTO scoreType (typeOfScoreType)
+-- values("Readability");# 1 rad påverkad.
+
+
+-- INSERT INTO scoreType (typeOfScoreType)
+-- values("Gory");# 1 rad påverkad.
+
+
+-- INSERT INTO scoreType (typeOfScoreType)
+-- values("Shivers");# 1 rad påverkad.
+
+
+-- INSERT INTO scoreType (typeOfScoreType)
+-- values("Unique");# 1 rad påverkad.
+
+-- INSERT INTO scoreType (typeOfScoreType)
+-- values("corresponds to the genre(s)");
+
+
+//Skapa stored Procedures! (DE HAR INTE TRY CATCH ELLER TRANSACTION!!!! :'((( )
+// hjälp : http://www.mysqltutorial.org/getting-started-with-mysql-stored-procedures.aspx
+
+# Hämta användarlösenord
+DELIMITER //
+CREATE PROCEDURE usp_getUserPassword (thisusername varchar(25))
+BEGIN
+
+SELECT userPassword
+FROM member
+WHERE userName = thisusername;
+
+END //
+DELIMITER ;
+* to call, use : call usp_lookForUser("")
+
+
+# Hämtar användarnamn (så användarnamn ej kan reggas mer än 1 gång.) (returnerar användarnamnet om det finns...)
+DELIMITER //
+CREATE PROCEDURE usp_lookForUser (thisusername varchar(25))
+BEGIN
+
+SELECT userName
+FROM member
+WHERE userName = thisusername;
+
+END //
+DELIMITER ;
+* to call, use : call usp_lookForUser("")
+
+
+# lägg till användare, lösenord + användarnamn
+DELIMITER //
+CREATE PROCEDURE usp_regUser (username varchar(25), userpassword varchar(100), firstname varchar(25), lastname varchar(25))
+BEGIN
+
+INSERT INTO member(userName, userPassword, firstName, lastName)
+VALUES (username, userpassword, firstname, lastname);
+
+END //
+DELIMITER ;
+* To call, use: call usp_regUser("doggy", "dogg", "james", "bond")
+
+
+# Hämta användarID
+DELIMITER //
+CREATE PROCEDURE usp_getUserID (thisusername varchar(25))
+BEGIN
+
+SELECT memberID
+FROM member
+WHERE userName = thisusername;
+
+END //
+DELIMITER ;
+* to call, use : call usp_getUserID ("")
+
+
+# Lägg in historia som användare (användarID, historian och språktyp)
+DELIMITER //
+
+
+CREATE PROCEDURE usp_addStory (thisMemberID int, thisLangTypeID int, thisStory varchar(50000), title varchar(25), genre int, author varchar(25))
+
+
+BEGIN
+
+
+
+
+
+INSERT INTO story(memberID, langTypeID, story)
+
+
+VALUES(thisMemberID, thisLangTypeID, thisStory);
+
+
+
+
+
+INSERT INTO detailTypeOnStory(storyID, detailTypeID, detailValue)
+
+
+VALUES(LAST_INSERT_ID(), 1, IF (author = "", (select userName from member where memberID = thisMemberID) , author));
+
+
+
+INSERT INTO detailTypeOnStory(storyID, detailTypeID, detailValue)
+
+
+VALUES(LAST_INSERT_ID(), 3, title);
+
+
+INSERT INTO genre(storyID, typeOfGenreID)
+
+VALUES(LAST_INSERT_ID(), genre);
+
+
+
+END //
+
+DELIMITER ;
+
+
+# Användaren vill redigera = hämta ner historian
+DELIMITER //
+
+
+CREATE PROCEDURE usp_getStory(thisStoryID int)
+
+BEGIN
+
+
+SELECT story
+
+FROM story
+
+WHERE storyID = thisStoryID;
+
+END //
+
+DELIMITER ;
+
+
+# Ersätt historia med ny redigerad historia
+DELIMITER //
+
+
+CREATE PROCEDURE usp_changeStory(thisStoryID int, newStory varchar(50000))
+
+
+BEGIN
+
+
+
+Update story
+
+SET story = newStory
+
+WHERE storyID = thisStoryID;
+
+
+
+END //
+
+
+DELIMITER ;
+
+
+# hämta ner alla användares historier
+DELIMITER //
+
+
+
+CREATE PROCEDURE usp_getAllStories()
+
+
+
+BEGIN
+
+
+
+SELECT story
+FROM story;
+
+
+
+END //
+
+
+
+DELIMITER ;
+
+
+
+call usp_getAllStories();
+
+
+# användaren vill lägga till historier från sin ryggsäck
+DELIMITER //
+
+
+CREATE PROCEDURE usp_addStoryToBackpack(memberID int, storyID int, translateID int)
+
+BEGIN
+
+
+
+IF translateID is null THEN 
+	
+	INSERT INTO storyInBackpack(storyID, memberID)
+
+	values(storyID, memberID);
+
+else 
+	
+	INSERT INTO storyInBackpack(storyID, memberID, translateID)
+
+	values(storyID, memberID, translateID);
+
+
+END IF;
+
+
+
+END //
+
+DELIMITER ;
+
+
+
+
+# användaren vill ta bort historier från sin ryggsäck
+DELIMITER //
+
+
+
+CREATE PROCEDURE usp_removeStoryFromBackpack(memberID int, storyID int, translateID int)
+
+BEGIN
+
+
+
+IF translateID is null THEN
+ 
+	DELETE storyInBackpack
+	FROM storyInBackpack
+
+	WHERE memberID = memberID && storyID = storyID && translateID = NULL;
+
+else
+ 
+	DELETE storyInBackpack
+
+	FROM storyInBackpack
+
+	WHERE memberID = memberID && storyID = storyID && translateID = translateID;
+
+
+END IF;
+
+
+
+END //
+
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
