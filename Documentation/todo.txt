@@ -1,0 +1,22 @@
+
+
+
+
+
+
+
+-sätta upp databas användare som bara får köra stored procedures... 
+anv: 199508_kb29675
+pass: samma som differentgames * 2 + stor bokstav i början 
+
+
+Allt idag har vart helt jälva skitigt! 
+Jag trodde att jag skulle få börja där jag slutade, igår avslutade jag att skriva procedurerna. 
+Idag gick ingenting, så efter mycket om och men så fick jag emigrera till MSSQL. 
+Detta har blivit ett heldags projekt och tagit upp hela dagen. Jag är trött och arg. 
+Men efter mycket arbete, slit, tårar och kramper så har jag lyckats göra en MSSQL server 
+med alla tabeller i. Dock så saknas datan från tabellerna, så jag måste sätta in ny data.
+Jag måste även skriva om alla lagrade procedurer, för de klarade sig inte i överförningen 
+(som tur är har jag de sparade, så omskrivningen lär inte ta allt för lång tid...).
+
+Idag har vart en jobbig dag.
