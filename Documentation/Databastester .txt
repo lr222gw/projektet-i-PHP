@@ -128,6 +128,14 @@ DELIMITER ;
 * to call, use : call usp_lookForUser("")
 
 
+
+
+
+
+
+
+
+
 # lägg till användare, lösenord + användarnamn
 DELIMITER //
 CREATE PROCEDURE usp_regUser (username varchar(25), userpassword varchar(100), firstname varchar(25), lastname varchar(25))
@@ -139,6 +147,17 @@ VALUES (username, userpassword, firstname, lastname);
 END //
 DELIMITER ;
 * To call, use: call usp_regUser("doggy", "dogg", "james", "bond")
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Hämta användarID
@@ -153,6 +172,22 @@ WHERE userName = thisusername;
 END //
 DELIMITER ;
 * to call, use : call usp_getUserID ("")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Lägg in historia som användare (användarID, historian och språktyp)
@@ -201,6 +236,14 @@ END //
 DELIMITER ;
 
 
+
+
+
+
+
+
+
+
 # Användaren vill redigera = hämta ner historian
 DELIMITER //
 
@@ -219,6 +262,24 @@ WHERE storyID = thisStoryID;
 END //
 
 DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Ersätt historia med ny redigerad historia
@@ -246,6 +307,19 @@ END //
 DELIMITER ;
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 # hämta ner alla användares historier
 DELIMITER //
 
@@ -260,6 +334,7 @@ BEGIN
 
 
 SELECT story
+
 FROM story;
 
 
