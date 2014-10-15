@@ -29,13 +29,12 @@ BEGIN
 	set @errormess  = '';
 		BEGIN TRAN
 
-			
-			IF (@translateID = null)	
+			IF (@translateID is null)	
 			BEGIN
 				set @errormess  = 'Error when inserting story into storyinbackpack';
 				DELETE storyInBackpack
 				FROM storyInBackpack
-				WHERE memberID = @memberID AND storyID = @storyID AND translateID = NULL;
+				WHERE memberID = @memberID AND storyID = @storyID AND translateID is NULL;
 			END
 			else 	
 			BEGIN

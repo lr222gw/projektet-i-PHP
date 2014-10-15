@@ -11,12 +11,35 @@
 -- INSERT INTO storyInBackpack (memberID, storyID)
 -- values(7, 5);
 
+--lägger till ttype of genre
+  Insert into typeOfGenre (genreTypeValue)
+  values('Gore');
+
+  Insert into typeOfGenre (genreTypeValue)
+  values('The supernatural');
+
+  Insert into typeOfGenre (genreTypeValue)
+  values('Lifelike');
+
+  Insert into typeOfGenre (genreTypeValue)
+  values('Urban legend');
+
+  Insert into typeOfGenre (genreTypeValue)
+  values('Poetry');
+
+
 -- lade in detaljtyper
 -- INSERT INTO detailType (typeOfDetailType)
 -- values("author");
 
 -- INSERT INTO detailType (typeOfDetailType)
 -- values("co-author");
+
+-- INSERT INTO detailType (typeOfDetailType)
+-- values("Title");
+
+-- INSERT INTO detailType (typeOfDetailType)
+-- values("Sub-title");
 
 -- Lade in commentar 
 -- INSERT INTO comment (storyID, memberID, comment)
@@ -350,6 +373,23 @@ DELIMITER ;
 call usp_getAllStories();
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # användaren vill lägga till historier från sin ryggsäck
 DELIMITER //
 
@@ -384,6 +424,15 @@ DELIMITER ;
 
 
 
+
+
+
+
+
+
+
+
+
 # användaren vill ta bort historier från sin ryggsäck
 DELIMITER //
 
@@ -394,24 +443,21 @@ CREATE PROCEDURE usp_removeStoryFromBackpack(memberID int, storyID int, translat
 BEGIN
 
 
+IF (@translateID is null)	
+			BEGIN
+				set @errormess  = 'Error when inserting story into storyinbackpack';
+				DELETE storyInBackpack
+				FROM storyInBackpack
 
-IF translateID is null THEN
- 
-	DELETE storyInBackpack
-	FROM storyInBackpack
-
-	WHERE memberID = memberID && storyID = storyID && translateID = NULL;
-
-else
- 
-	DELETE storyInBackpack
-
-	FROM storyInBackpack
-
-	WHERE memberID = memberID && storyID = storyID && translateID = translateID;
-
-
-END IF;
+				WHERE memberID = @memberID AND storyID = @storyID AND translateID is NULL;
+			END
+			else 	
+			BEGIN
+				set @errormess  = 'Error when inserting Translatedstory into storyinbackpack';
+				DELETE storyInBackpack
+				FROM storyInBackpack
+				WHERE memberID = @memberID AND storyID = @storyID AND translateID = @translateID;
+			END
 
 
 
@@ -426,10 +472,72 @@ DELIMITER ;
 
 
 
+# Hämta alla användarens stories i backpacken
+
+CREATE PROCEDURE usp_getAllStoriesFromUserBackpack
+	-- Add the parameters for the stored procedure here
+	@memberID int
+AS
+BEGIN
+
+	SELECT storyID, translateID
+	from storyInBackpack
+	where memberID = @memberID;
+
+END
+GO
 
 
 
 
+
+
+#addTranslated story -----------------------------------s--------------------------------------
+ALTER PROCEDURE [dbo].[usp_addTranslatedStory]
+	@storyToTranslateID int,
+	@thisMemberID int, 
+	@thisLangTypeID int, 
+	@thisStory text, 
+	@title varchar(25), 
+	@TranslateAuthor varchar(25) = ''
+AS
+BEGIN
+	BEGIN TRY
+	DECLARE @errormess varchar(55);
+	set @errormess  = '';
+		BEGIN TRAN
+					
+			set @errormess  = 'Error when inserted translatedstory into storyTranslationtabel';
+			INSERT INTO storyTranslation(storyID ,memberID, langTypeID, translatedStory)
+			VALUES(@storyToTranslateID, @thisMemberID, @thisLangTypeID, @thisStory);
+
+			set @errormess  = 'Error with IF statement';
+			IF (@TranslateAuthor = '')
+			BEGIN 			
+				set @TranslateAuthor = (select userName from member where memberID = @thisMemberID);				
+			END
+			ELSE
+			BEGIN
+				set @TranslateAuthor = @TranslateAuthor;
+			END		
+
+			set @errormess  = 'Error when inserted storyDetailType for Translator';
+			INSERT INTO detailTypeOnStory(storyID, detailTypeID, detailValue)
+			VALUES(@storyToTranslateID, 5, @TranslateAuthor);
+
+			set @errormess  = 'Error when inserted storyDetailType for Title';			
+			INSERT INTO detailTypeOnStory(storyID, detailTypeID, detailValue)
+			VALUES(@storyToTranslateID, 3, @title);
+
+
+		COMMIT TRAN
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		Raiserror(@errormess, 16,1);
+	END CATCH
+
+END
 
 
 
