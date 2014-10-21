@@ -30,6 +30,8 @@ class MasterController {
 
         $arrOfStories = $ListOfStories->getListOfStories();
 
+        $arrOfStories = array_reverse($arrOfStories); // ser till att den nyaste ligger först...
+
         $result = $this->view->showListOfStories($arrOfStories);
 
         return $result;
@@ -46,7 +48,7 @@ class MasterController {
                 $this->view->clearPost();
 
                 $this->db->addStory($this->db->getUserDetail($newStoryData["user"],2),(int)$newStoryData["language"],$newStoryData["story"],$newStoryData["title"],(int)$newStoryData["genre"],$newStoryData["author"]);
-
+                $this->view->goToBegining();
 
             }
             else if($this->view->hasUserAcsessedUploadBox()){

@@ -139,4 +139,10 @@ class MainView {
         $_POST = [];
     }
 
+    public function goToBegining()
+    {
+        header("Location: ".$_SERVER["PHP_SELF"]);
+        die();
+    }
+
 }

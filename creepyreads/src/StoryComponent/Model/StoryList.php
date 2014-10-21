@@ -24,6 +24,7 @@ class StoryList{
 
     private function createListFromArrayOfStoryDetail($arrayOfStoryDetail){
         //Creates Story objekts from this array...
+
         $arrayOfStories = [];
         for($i = 0; $i < count($arrayOfStoryDetail); $i++){
             $arrayOfStories[] = $newStory= new Story(
@@ -37,6 +38,7 @@ class StoryList{
                 $arrayOfStoryDetail[$i]['listOfComments'],
                 $arrayOfStoryDetail[$i]['Author']);
         }
+
 
         return $arrayOfStories;
 
