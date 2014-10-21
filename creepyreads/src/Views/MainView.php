@@ -51,7 +51,7 @@ class MainView {
 
     public function hasUserAcsessedUploadBox()
     {
-        if(isset($_GET['uploadStory'])){
+        if(isset($_POST['uploadStory'])){
             return true;
         }
         return false;
@@ -68,7 +68,7 @@ class MainView {
     {
         $ret = "
         <p>Hello {$user}! Upload a story!</p>
-        <form action='' method='GET'>
+        <form action='' method='Post'>
             <input type='submit' name='uploadStory' value='To Upload!'>
         </form>
         ";
@@ -134,15 +134,29 @@ class MainView {
         return $ArrToReturn;
     }
 
+    public function goToFirstPage($extraParam = "")
+    {
+        if($extraParam != ""){
+            $extraParam = $extraParam."=true";
+        }
+
+        header("Location: ".$_SERVER["PHP_SELF"]."?".$extraParam);
+
+        die();
+    }
     public function clearPost()
     {
         $_POST = [];
     }
 
-    public function goToBegining()
+    public function storySucsessed()
     {
-        header("Location: ".$_SERVER["PHP_SELF"]);
-        die();
+        if(isset($_GET["success"])){
+            if($_GET["success"] == true){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -6,7 +6,14 @@
  * Time: 17:47
  */
 class HTMLview{
+    public function addMessageToShow($message){
+        $_POST['message'] = $message;
+
+    }
     public function presentPage($loginBox, $content, $uploadstorybox){
+        if(isset($_POST['message'])){
+            $message = "<p id='messageToUser'>".$_POST['message']."</p>";
+        }else{ $message = "";}
 
 
         echo "
@@ -14,9 +21,10 @@ class HTMLview{
                 <html>
                 <head>
                 <meta charset=\"utf-8\" />
-                <title>Labb2</title>
+                <title>CreepyReads</title>
                 </head>
                 <body>
+                    $message
                     <div id='uploadStory'>
                     $uploadstorybox
                     </div>

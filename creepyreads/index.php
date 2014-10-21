@@ -11,11 +11,11 @@ require_once("src/Controllers/MasterController.php");
  * Time: 18:57
  */
 session_start();
-$masterController = new MasterController();
-
 $htmlview = new HTMLview();
-$htmlview->presentPage($masterController->getLoginModule(),$masterController->getListContent(),$masterController->getUploadBox());
 
+$masterController = new MasterController($htmlview);
+
+$htmlview->presentPage($masterController->getLoginModule(),$masterController->getListContent(),$masterController->getUploadBox());
 
 /*$some = $shit->addStory(46,1,'Yoooo bitch', 'storyBoutBitch', 1);//checkIfUserNameAlreadyExist('momb');//'; DROP TABLE shit; --';
 $some = $shit->addStory(46,1,'Alfons Suger', 'OnceUpon Times in Roman', 1);
