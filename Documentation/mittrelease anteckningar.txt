@@ -1,0 +1,17 @@
+
+
+Bind med ":variable"
+-Finns exempel. 
+	^Denna typ av bindning hjälper mot '-problemet
+-Annars = pregreplace ' på \'
+ hjälp = https://github.com/dntoll/1dv408-HT14/blob/master/Portfolio/
+	^rad 19...
+
+$db = $this -> connection();
+
+		$sql = "INSERT INTO $this->dbTable (" . self::$key . ", " . self::$name . ", ".self::$owner.") VALUES (?, ?, ?)";
+
+		$params = array($project -> getUnique(), $project -> getName(), $project->getOwner()->getUnique()); //hamnar på "?,?,?". ORDNING = VIKTIGT!
+
+		$query = $db -> prepare($sql); //Kollar satsen efter sqlInjection
+		$query -> execute($params); // ser till att bindningen görs! 

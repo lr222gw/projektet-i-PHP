@@ -45,7 +45,7 @@ class MasterController {
                 $newStoryData = $this->view->retrieveSubmittedData();
                 $this->view->clearPost();
 
-                $this->db->addStory($this->db->getUserDetail($newStoryData["user"],2),$newStoryData["language"],$newStoryData["story"],$newStoryData["title"],$newStoryData["genre"],$newStoryData["author"]);
+                $this->db->addStory($this->db->getUserDetail($newStoryData["user"],2),(int)$newStoryData["language"],$newStoryData["story"],$newStoryData["title"],(int)$newStoryData["genre"],$newStoryData["author"]);
 
 
             }

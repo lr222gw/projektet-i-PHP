@@ -15,7 +15,7 @@ class DOA_dbMaster{
     public function __construct(){
 
     }
-    private function getMySQLQuery($queryString){ //används till de flesta....
+    private function getMySQLQuery($queryString, $paramsArr){ //används till de flesta....
 
         try{
             $databaseHandler = new PDO(self::$pdoString, self::$pdoUserName, self::$pdoUserPass);
@@ -34,12 +34,16 @@ class DOA_dbMaster{
 
             if(count($queryString) >= 2){
                 for($i=0;$i<count($queryString); $i++){
-                    $final = $databaseHandler->query($queryString[$i]);
+                     if($stmt->execute($paramsArr[$i])){
+                         return false;
+                     }
 
                 }
-            }else{ $final = $databaseHandler->query($queryString); }
-            $databaseHandler->commit();
-            return $final;
+                $databaseHandler->commit();
+                return true;
+            }else{ if($stmt->execute($paramsArr)){$databaseHandler->commit(); return $stmt;}; }
+            $databaseHandler->rollBack();
+            return false;
 
 
 
@@ -52,9 +56,9 @@ class DOA_dbMaster{
 
     public function regUser($userName, $userPassword, $firstName, $lastName){
         //if(checkIfUserNameAlreadyExist($userName)){
-            $queryString = 'INSERT INTO member(userName, userPassword, firstName, lastName) values("'.$userName.'", "'.$userPassword.'", "'.$firstName.'", "'.$lastName.'")';
-
-            $this->getMySQLQuery($queryString);
+            $queryString = 'INSERT INTO member(userName, userPassword, firstName, lastName) values(?, ?, ?, ?)';
+            $paramArr = [$userName, $userPassword, $firstName, $lastName];
+            $this->getMySQLQuery($queryString,$paramArr);
         //}else{
         //    return false;
         //}
@@ -72,9 +76,10 @@ class DOA_dbMaster{
         $queryString = "
 SELECT userPassword, userName, memberID
 FROM member
-WHERE userName = '{$userName}';";
+WHERE userName = ?;";
+        $param = [$userName];
 
-        $query = $this->getMySQLQuery($queryString);
+        $query = $this->getMySQLQuery($queryString,$param);
 
         return $query->fetch()[$whatField]; //return lösenord...
                 // ^= array, [0] = lösenord. enda saken i arrayen...
@@ -91,24 +96,25 @@ WHERE userName = '{$userName}';";
     public function getAllUsers(){
 
         $query = "
-SELECT userName
-FROM member;";
+        SELECT userName
+        FROM member;";
+        $emptyParam = [];
 
-        $story = $this->getMySQLQuery($query);
+        $story = $this->getMySQLQuery($query,$emptyParam);
         return $story->fetchAll(PDO::FETCH_COLUMN);
     }
 
 
     public function getAllStoriesAndDetails(){
         $query = "SELECT story.storyID, story, userName, (select detailValue from detailTypeOnStory where detailTypeID = 3 AND story.storyID = detailTypeOnStory.storyID) as title, genreTypeValue as genre, langType.typeOfLangType, (select detailValue from detailTypeOnStory where detailTypeID = 1 AND story.storyID = detailTypeOnStory.storyID) as Author
-FROM story
-	left JOIN genre On  genre.storyID = story.storyID
-	left Join typeOfGenre ON typeOfGenre.typeOfGenreID = genre.typeOfGenreID
-	left join member ON story.memberID = member.memberID
-	left join langType on story.langTypeID = langType.langTypeID
-;";
-
-        $story = $this->getMySQLQuery($query);
+        FROM story
+            left JOIN genre On  genre.storyID = story.storyID
+            left Join typeOfGenre ON typeOfGenre.typeOfGenreID = genre.typeOfGenreID
+            left join member ON story.memberID = member.memberID
+            left join langType on story.langTypeID = langType.langTypeID
+        ;";
+        $emptyParam = [];
+        $story = $this->getMySQLQuery($query, $emptyParam);
         //$story->fetch()
 
         return $story->fetchAll(PDO::FETCH_ASSOC);
@@ -120,9 +126,9 @@ FROM story
         from story
 	    left join score	on score.storyID = story.storyID
 	    left JOIN scoreValue on score.scoreValueID = scoreValue.scoreValueID
-        where story.storyID = '{$storyID}';";
-
-        $scoredata = $this->getMySQLQuery($query);
+        where story.storyID = ?;";
+        $param = [$storyID];
+        $scoredata = $this->getMySQLQuery($query,$param);
         //$story->fetch()
         $scoreData = $scoredata->fetchAll(PDO::FETCH_ASSOC);
 
@@ -134,9 +140,9 @@ FROM story
         select story.storyID, comments.comment
         from story
 	    left join comments	on comments.storyID = story.storyID
-        where story.storyID = '{$storyID}';";
-
-        $comment = $this->getMySQLQuery($query);
+        where story.storyID = ?;";
+        $param = [$storyID];
+        $comment = $this->getMySQLQuery($query,$param);
         //$story->fetch()
         $commentsOfStory = $comment->fetchAll(PDO::FETCH_ASSOC);
 
@@ -147,19 +153,21 @@ FROM story
         $query = "
         SELECT story
         FROM story
-        WHERE storyID = $thisStoryID;";
+        WHERE storyID = ?;";
+        $param = [$thisStoryID];
 
-        $story = $this->getMySQLQuery($query);
+        $story = $this->getMySQLQuery($query, $param);
         return $story->fetch()[0];
     }
 
     public function replaceStory($storyID, $newStory){
         $query = "
 Update story
-SET story = '{$newStory}'
-WHERE storyID = '{$storyID}' ;";
+SET story = ?
+WHERE storyID = ? ;";
+        $params = [$newStory, $storyID];
 
-        $this->getMySQLQuery($query);
+        $this->getMySQLQuery($query, $params);
 
     }
 
@@ -172,41 +180,49 @@ WHERE storyID = '{$storyID}' ;";
             $databaseHandler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $queryStringInsertStory = "
-INSERT INTO story (memberID, langTypeID, story)
-VALUES('{$memberID}','{$thisLangTypeID}','{$thisStory}')";
+            INSERT INTO story (memberID, langTypeID, story)
+            VALUES(?,?,?)";
+            $params = [$memberID, $thisLangTypeID, $thisStory];
+
             $stmt = $databaseHandler->prepare($queryStringInsertStory); //Säkert för sql injection http://stackoverflow.com/questions/4700623/pdos-query-vs-execute
-            $stmt->execute();
+            $stmt->execute($params);
 
             $LastInsertedID = $databaseHandler->lastInsertId();
 
             if($author == ""){ // om inget användarnamn skickas med så används användarens användarnamn...
-                $que = "select userName from member where memberID = '{$memberID}'";
+                $que = "select userName from member where memberID = ?";
+                $param = [$memberID];
                 $stmt = $databaseHandler->prepare($que);
-                $userName = $databaseHandler->query($que);
+                if($stmt->execute($param)){
+                    $author = $stmt->fetch()[0];
+                }else{
+                    throw new Exception("something went wrong with userName... in upload story section");
+                }
 
-                $author = $userName->fetch()[0];
+
             }
             $queryString[0] = "
 INSERT INTO detailTypeOnStory (storyID, detailTypeID, detailValue)
-VALUES('{$LastInsertedID}', 1,'{$author}')";
-
+VALUES('{$LastInsertedID}', 1,?)";
 
             $queryString[1] = "
 INSERT INTO detailTypeOnStory (storyID, detailTypeID, detailValue)
-VALUES('{$LastInsertedID}', 3,'{$title}')";
+VALUES('{$LastInsertedID}', 3,?)";
 
             $queryString[2] = "
 INSERT INTO genre(storyID, typeOfGenreID)
-VALUES('{$LastInsertedID}', '{$typeOfGenreID}');";
+VALUES('{$LastInsertedID}', ?);";
+            $param = [[$author],[$title],[$typeOfGenreID]];
+
 
             $stmt2 = $databaseHandler->prepare($queryString[0]); //Säkert för sql injection http://stackoverflow.com/questions/4700623/pdos-query-vs-execute
-            $stmt2->execute();
+            $stmt2->execute($param[0]);
 
             $stmt3 = $databaseHandler->prepare($queryString[1]); //Säkert för sql injection http://stackoverflow.com/questions/4700623/pdos-query-vs-execute
-            $stmt3->execute();
+            $stmt3->execute($param[1]);
 
             $stmt4 = $databaseHandler->prepare($queryString[2]); //Säkert för sql injection http://stackoverflow.com/questions/4700623/pdos-query-vs-execute
-            $stmt4->execute();
+            $stmt4->execute($param[2]);
 
             //Om koden är godkänd här så exekveras den och alternativt så får vi ett värde tillbaka.
 

@@ -22,7 +22,7 @@ class MainView {
             $score = $arrOfStories[$i]->getScore();
             $uploader = $arrOfStories[$i]->getUserOwner();
             $author = $arrOfStories[$i]->getOtherAuthor();
-            $genre = $arrOfStories[$i]->getOtherAuthor();
+            $genre = $arrOfStories[$i]->getGenre();
             $lanuage = $arrOfStories[$i]->getLangType();
 
             $ret .= "
