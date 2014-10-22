@@ -16,7 +16,6 @@ class MainView {
     {
         $ret = '';
         for($i=0; $i<count($arrOfStories);$i++){//loopar igenom alla stories och gör dem till html
-
             $title = $arrOfStories[$i]->getTitle();
             $story = $arrOfStories[$i]->getThisStory();
             $score = $arrOfStories[$i]->getScore();
@@ -42,8 +41,8 @@ class MainView {
             </div>
             ";
 
-
         }
+
 
 
         return $ret;
@@ -122,7 +121,12 @@ class MainView {
         return isset($_POST["submit"]);
     }
 
-    public function retrieveSubmittedData()
+    public function hasUserEditStory()
+    {
+        return isset($_POST["changed"]);
+    }
+
+    public function retrieveSubmittedData($forEdit = false)
     {
         $ArrToReturn = array();
         $ArrToReturn["user"] = $_POST["user"];
@@ -131,6 +135,9 @@ class MainView {
         $ArrToReturn["genre"] = $_POST["genre"];
         $ArrToReturn["language"] = $_POST["language"];
         $ArrToReturn["story"] = $_POST["story"];
+        if($forEdit){
+            $ArrToReturn["storyID"] = $_POST["storyID"];
+        }
         return $ArrToReturn;
     }
 
@@ -157,6 +164,146 @@ class MainView {
             }
         }
         return false;
+    }
+
+    public function didUserSelectStoryToEdit()
+    {
+        if(isset($_GET["edit"])){
+            return $_GET["edit"];
+
+        }
+        return false;
+    }
+
+    public function presentEditStories(){
+        $ret = "
+        <h4>Edit Your Stories</h4>
+        <form action='' method='Post'>
+            <input type='submit' name='editstories' value='Manage Stories'>
+        </form>
+        ";
+
+        return  $ret;
+    }
+
+    public function hasUserAccessedEdit()
+    {
+        if(isset($_POST['editstories'])){
+            return true;
+        }
+        return false;
+    }
+
+    public function showEditStories($theListOfuserStories)
+    {
+        $ret = '';
+        for($i=0; $i<count($theListOfuserStories);$i++){//loopar igenom alla stories och gör dem till html
+            $title = $theListOfuserStories[$i]->getTitle();
+            $story = $theListOfuserStories[$i]->getThisStory();
+            $score = $theListOfuserStories[$i]->getScore();
+            $uploader = $theListOfuserStories[$i]->getUserOwner();
+            $author = $theListOfuserStories[$i]->getOtherAuthor();
+            $genre = $theListOfuserStories[$i]->getGenre();
+            $lanuage = $theListOfuserStories[$i]->getLangType();
+            $storyId = $theListOfuserStories[$i]->getThisStoryID();
+
+            $ret .= "
+            <div class='editListColumn''>
+            <a class='title' href='?edit=$storyId'>{$title} (language: {$lanuage})</a>
+            <p class='storyDetails'>Uploaded by: {$uploader}</p>
+            <p class='storyDetails'>Author: {$author}</p>
+            <p class='storyDetails'>Genre: {$genre}</p>
+            <p class='storyDetails'>score: {$score} out of 10</p>
+            </div>
+            ";
+
+        }
+        return $ret;
+    }
+
+    public function showEditThisStory($editThisStory)
+    {
+        $title = $editThisStory->getTitle();
+        $story = $editThisStory->getThisStory();
+        $author = $editThisStory->getOtherAuthor();
+        $genre = $editThisStory->getGenre();
+        $owner = $editThisStory->getUserOwner();
+        switch($genre){
+            case "Gore":
+                $genre1 = "selected";
+                break;
+            case "The supernatural":
+                $genre2 = "selected";
+                break;
+            case "Lifelike":
+                $genre3 = "selected";
+                break;
+            case "Urban legend":
+                $genre4 = "selected";
+                break;
+            case "Poetry":
+                $genre5 = "selected";
+                break;
+        }
+        $lanuage = $editThisStory->getLangType();
+        switch($lanuage){
+            case "EN":
+                $lanuage1 = "selected";
+                break;
+            case "SV":
+                $lanuage2 = "selected";
+                break;
+            case "DE":
+                $lanuage3 = "selected";
+                break;
+            case "FR":
+                $lanuage4 = "selected";
+                break;
+            case "ES":
+                $lanuage5 = "selected";
+                break;
+            case "RU":
+                $lanuage5 = "selected";
+                break;
+        }
+        $storyId = $editThisStory->getThisStoryID();
+        $ret = "
+        <form action='' method='post' id='editForm'>
+            <fieldset>
+                <legend>Edit - Change storydetails</legend>
+                <label for='author' >Author :</label>
+                <input type='text' size='20' name='author' id='author' value='$author' placeholder='Leave blank if its you'>
+                <label for='title'>Title :</label>
+                <input type='text' size='20' name='title' id='title' required value='$title'>
+                <label for='genre'>Genre :</label>
+                <select name='genre'>
+                  <option value=1 $genre1>Gore</option>
+                  <option value=2 $genre2>The supernatural</option>
+                  <option value=3 $genre3>Lifelike</option>
+                  <option value=4 $genre4>Urban legend</option>
+                  <option value=5 $genre5>Poetry</option>
+                </select>
+                <label for='lastName'>Language :</label>
+                <select name='language'>
+                  <option value=1 $lanuage1>EN</option>
+                  <option value=2 $lanuage2>SV</option>
+                  <option value=3 $lanuage3>DE</option>
+                  <option value=4 $lanuage4>FR</option>
+                  <option value=5 $lanuage5>ES</option>
+                  <option value=6 $lanuage5>RU</option>
+                </select>
+                <label for='story'>Story to submit :</label>
+                <textarea type='story' name='story'  id='story' maxlength='50000' minlength='100' required rows='20' cols='160'>$story</textarea>
+                <input type='submit' name='changed' value='Save Changes!'>
+                <input type='hidden' name='user' value='$owner'>
+                <input type='hidden' name='storyID' value='$storyId'>
+            </fieldset>
+        </form>
+        <form action='' method='GET'>
+            <input type='submit' name='back' value='Close!'>
+        </form>
+        ";
+        return $ret;
     }
 
 }

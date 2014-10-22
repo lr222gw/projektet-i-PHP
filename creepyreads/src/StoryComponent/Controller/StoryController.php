@@ -21,6 +21,19 @@ class StoryController {
         $storyList = new StoryList($refinedList);
         return $storyList;
     }
+    public function getStoryFromStoryID($storyID){
+        $storyToRetrieve[0] = $this->db->getStoryByID($storyID);
+        $refinedStory = $this->getScoreAndCommentsForStory($storyToRetrieve);
+        $story = new Story($refinedStory[0]["storyID"],$refinedStory[0]["userName"],$refinedStory[0]["story"],$refinedStory[0]["title"],$refinedStory[0]["genre"],$refinedStory[0]["typeOfLangType"],$refinedStory[0]["scoreValue"],$refinedStory[0]["listOfComments"],$refinedStory[0]["Author"]);
+        return $story;
+    }
+
+    public function getListOfStoriesFromUser($userID){
+        $listOfStories = $this->db->getStoriesByUserID($userID);
+        $refinedList = $this->getScoreAndCommentsForStory($listOfStories);
+        $storyList = new StoryList($refinedList);
+        return $storyList;
+    }
 
     private function getScoreAndCommentsForStory($listOfStories){
 

@@ -77,5 +77,40 @@ class MasterController {
         }
     }
 
+    public function getEditStories(){
+        $user = $this->loginController->checkForLoggedInAndReturnUserName();
+
+        if($user != false){ // om user inte är false! alltså inloggad...
+
+            $storyId = $this->view->didUserSelectStoryToEdit();
+            if($this->view->hasUserEditStory()){
+                $EditedStoryData = $this->view->retrieveSubmittedData(true);
+
+                $this->view->clearPost();
+
+                $this->db->EditStory((int)$EditedStoryData["storyID"], $this->db->getUserDetail($EditedStoryData["user"],2),(int)$EditedStoryData["language"],$EditedStoryData["story"],$EditedStoryData["title"],(int)$EditedStoryData["genre"],$EditedStoryData["author"]);
+                $this->cookieJar->save("Your story was Edited!");
+                $this->view->goToFirstPage();
+
+                return ;
+            }
+            else if($storyId != false){
+
+                $editThisStory = $this->storyController->getStoryFromStoryID($storyId);
+                return $this->view->showEditThisStory($editThisStory);
+
+            }else if($this->view->hasUserAccessedEdit()){
+                //hämta ner alla användarens stories
+                $userStories = $this->storyController->getListOfStoriesFromUser($this->db->getUserDetail($user,2));
+                $theListOfuserStories = $userStories->getListOfStories();
+                $theListOfuserStories = array_reverse($theListOfuserStories);
+                return $this->view->showEditStories($theListOfuserStories);
+            }else{
+                return $this->view->presentEditStories();
+            }
+
+        }
+    }
+
 
 }

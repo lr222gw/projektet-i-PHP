@@ -10,7 +10,7 @@ class HTMLview{
         $_POST['message'] = $message;
 
     }
-    public function presentPage($loginBox, $content, $uploadstorybox){
+    public function presentPage($loginBox, $content, $uploadstorybox, $editStories){
         if(isset($_POST['message'])){
             $message = "<p id='messageToUser'>".$_POST['message']."</p>";
         }else{ $message = "";}
@@ -25,6 +25,9 @@ class HTMLview{
                 </head>
                 <body>
                     $message
+                    <div id='editStory'>
+                    $editStories
+                    </div>
                     <div id='uploadStory'>
                     $uploadstorybox
                     </div>

@@ -150,14 +150,18 @@ WHERE userName = ?;";
     }
 
     public function getStoryByID($thisStoryID){
-        $query = "
-        SELECT story
+        $query = "SELECT story.storyID, story, userName, (select detailValue from detailTypeOnStory where detailTypeID = 3 AND story.storyID = detailTypeOnStory.storyID) as title, genreTypeValue as genre, langType.typeOfLangType, (select detailValue from detailTypeOnStory where detailTypeID = 1 AND story.storyID = detailTypeOnStory.storyID) as Author
         FROM story
-        WHERE storyID = ?;";
+            left JOIN genre On  genre.storyID = story.storyID
+            left Join typeOfGenre ON typeOfGenre.typeOfGenreID = genre.typeOfGenreID
+            left join member ON story.memberID = member.memberID
+            left join langType on story.langTypeID = langType.langTypeID
+            WHERE story.storyID = ?
+        ;";
         $param = [$thisStoryID];
 
         $story = $this->getMySQLQuery($query, $param);
-        return $story->fetch()[0];
+        return $story->fetch(PDO::FETCH_ASSOC);
     }
 
     public function replaceStory($storyID, $newStory){
@@ -203,16 +207,16 @@ WHERE storyID = ? ;";
             }
             $queryString[0] = "
 INSERT INTO detailTypeOnStory (storyID, detailTypeID, detailValue)
-VALUES('{$LastInsertedID}', 1,?)";
+VALUES(?, 1,?)";
 
             $queryString[1] = "
 INSERT INTO detailTypeOnStory (storyID, detailTypeID, detailValue)
-VALUES('{$LastInsertedID}', 3,?)";
+VALUES(?, 3,?)";
 
             $queryString[2] = "
 INSERT INTO genre(storyID, typeOfGenreID)
-VALUES('{$LastInsertedID}', ?);";
-            $param = [[$author],[$title],[$typeOfGenreID]];
+VALUES(?, ?);";
+            $param = [[$LastInsertedID,$author],[$LastInsertedID,$title],[$LastInsertedID,$typeOfGenreID]];
 
 
             $stmt2 = $databaseHandler->prepare($queryString[0]); //Säkert för sql injection http://stackoverflow.com/questions/4700623/pdos-query-vs-execute
@@ -233,6 +237,92 @@ VALUES('{$LastInsertedID}', ?);";
             $databaseHandler->rollBack();
             die("Sorry Database Error..." . $e->getMessage());
         }
+    }
+
+    public function getStoriesByUserID($userID)
+    {
+        $query = "SELECT story.storyID, story, userName, (select detailValue from detailTypeOnStory where detailTypeID = 3 AND story.storyID = detailTypeOnStory.storyID) as title, genreTypeValue as genre, langType.typeOfLangType, (select detailValue from detailTypeOnStory where detailTypeID = 1 AND story.storyID = detailTypeOnStory.storyID) as Author
+        FROM story
+            left JOIN genre On  genre.storyID = story.storyID
+            left Join typeOfGenre ON typeOfGenre.typeOfGenreID = genre.typeOfGenreID
+            left join member ON story.memberID = member.memberID
+            left join langType on story.langTypeID = langType.langTypeID
+            WHERE story.memberID = ?
+        ;";
+        $emptyParam = [$userID];
+        $story = $this->getMySQLQuery($query, $emptyParam);
+        //$story->fetch()
+
+        return $story->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function EditStory($storyID, $memberID, $thisLangTypeID, $thisStory, $title, $typeOfGenreID, $author = "")
+    {
+        var_dump($storyID, $memberID, $thisLangTypeID, $thisStory, $title, $typeOfGenreID);
+        //die();
+        $queryString = [];
+        try{
+            $databaseHandler = new PDO(self::$pdoString, self::$pdoUserName, self::$pdoUserPass);
+            $databaseHandler->beginTransaction();
+            $databaseHandler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $queryStringInsertStory = "
+            UPDATE story
+            SET langTypeID = ?, story = ?
+            Where storyID = ?;";
+            $params = [$thisLangTypeID, $thisStory, $storyID];
+
+            $stmt = $databaseHandler->prepare($queryStringInsertStory); //Säkert för sql injection http://stackoverflow.com/questions/4700623/pdos-query-vs-execute
+            $stmt->execute($params);
+
+            if($author == ""){ // om inget användarnamn skickas med så används användarens användarnamn...
+                $que = "select userName from member where memberID = ?";
+                $param = [$memberID];
+                $stmt = $databaseHandler->prepare($que);
+                if($stmt->execute($param)){
+                    $author = $stmt->fetch()[0];
+                }else{
+                    throw new Exception("something went wrong with userName... in upload story section");
+                }
+
+
+            }
+            $queryString[0] = "
+UPDATE detailTypeOnStory
+set detailValue = ?
+WHERE storyID = ? AND detailTypeID = 1;";
+
+            $queryString[1] = "
+UPDATE detailTypeOnStory
+set detailValue = ?
+WHERE storyID = ? AND detailTypeID = 3;";
+
+            $queryString[2] = "
+UPDATE genre
+SET typeOfGenreID = ?
+where storyID = ?;";
+            $param = [[$author,$storyID],[$title,$storyID],[$typeOfGenreID, $storyID]];
+
+
+            $stmt2 = $databaseHandler->prepare($queryString[0]); //Säkert för sql injection http://stackoverflow.com/questions/4700623/pdos-query-vs-execute
+            $stmt2->execute($param[0]);
+
+            $stmt3 = $databaseHandler->prepare($queryString[1]); //Säkert för sql injection http://stackoverflow.com/questions/4700623/pdos-query-vs-execute
+            $stmt3->execute($param[1]);
+
+            $stmt4 = $databaseHandler->prepare($queryString[2]); //Säkert för sql injection http://stackoverflow.com/questions/4700623/pdos-query-vs-execute
+            $stmt4->execute($param[2]);
+
+            //Om koden är godkänd här så exekveras den och alternativt så får vi ett värde tillbaka.
+
+            $databaseHandler->commit();
+
+
+        }catch(PDOException $e) {
+            $databaseHandler->rollBack();
+            die("Sorry Database Error..." . $e->getMessage());
+        }
+
     }
 
 

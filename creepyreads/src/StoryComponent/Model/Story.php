@@ -8,6 +8,8 @@
 class Story {
     private $thisStory;
     private $thisStoryID;
+
+
     private $userOwner;
     private $title;
     private $genre;
@@ -64,6 +66,10 @@ class Story {
     public function getUserOwner()
     {
         return $this->userOwner;
+    }
+    public function getThisStoryID()
+    {
+        return $this->thisStoryID;
     }
 
 }
