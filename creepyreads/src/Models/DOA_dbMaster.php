@@ -106,12 +106,13 @@ WHERE userName = ?;";
 
 
     public function getAllStoriesAndDetails(){
-        $query = "SELECT story.storyID, story, userName, (select detailValue from detailTypeOnStory where detailTypeID = 3 AND story.storyID = detailTypeOnStory.storyID) as title, genreTypeValue as genre, langType.typeOfLangType, (select detailValue from detailTypeOnStory where detailTypeID = 1 AND story.storyID = detailTypeOnStory.storyID) as Author
+        $query = "SELECT story.locked, story.storyID, story, userName, (select detailValue from detailTypeOnStory where detailTypeID = 3 AND story.storyID = detailTypeOnStory.storyID) as title, genreTypeValue as genre, langType.typeOfLangType, (select detailValue from detailTypeOnStory where detailTypeID = 1 AND story.storyID = detailTypeOnStory.storyID) as Author
         FROM story
             left JOIN genre On  genre.storyID = story.storyID
             left Join typeOfGenre ON typeOfGenre.typeOfGenreID = genre.typeOfGenreID
             left join member ON story.memberID = member.memberID
             left join langType on story.langTypeID = langType.langTypeID
+            WHERE story.locked = 0
         ;";
         $emptyParam = [];
         $story = $this->getMySQLQuery($query, $emptyParam);
@@ -150,7 +151,7 @@ WHERE userName = ?;";
     }
 
     public function getStoryByID($thisStoryID){
-        $query = "SELECT story.storyID, story, userName, (select detailValue from detailTypeOnStory where detailTypeID = 3 AND story.storyID = detailTypeOnStory.storyID) as title, genreTypeValue as genre, langType.typeOfLangType, (select detailValue from detailTypeOnStory where detailTypeID = 1 AND story.storyID = detailTypeOnStory.storyID) as Author
+        $query = "SELECT story.locked, story.storyID, story, userName, (select detailValue from detailTypeOnStory where detailTypeID = 3 AND story.storyID = detailTypeOnStory.storyID) as title, genreTypeValue as genre, langType.typeOfLangType, (select detailValue from detailTypeOnStory where detailTypeID = 1 AND story.storyID = detailTypeOnStory.storyID) as Author
         FROM story
             left JOIN genre On  genre.storyID = story.storyID
             left Join typeOfGenre ON typeOfGenre.typeOfGenreID = genre.typeOfGenreID
@@ -241,7 +242,7 @@ VALUES(?, ?);";
 
     public function getStoriesByUserID($userID)
     {
-        $query = "SELECT story.storyID, story, userName, (select detailValue from detailTypeOnStory where detailTypeID = 3 AND story.storyID = detailTypeOnStory.storyID) as title, genreTypeValue as genre, langType.typeOfLangType, (select detailValue from detailTypeOnStory where detailTypeID = 1 AND story.storyID = detailTypeOnStory.storyID) as Author
+        $query = "SELECT story.locked, story.storyID, story, userName, (select detailValue from detailTypeOnStory where detailTypeID = 3 AND story.storyID = detailTypeOnStory.storyID) as title, genreTypeValue as genre, langType.typeOfLangType, (select detailValue from detailTypeOnStory where detailTypeID = 1 AND story.storyID = detailTypeOnStory.storyID) as Author
         FROM story
             left JOIN genre On  genre.storyID = story.storyID
             left Join typeOfGenre ON typeOfGenre.typeOfGenreID = genre.typeOfGenreID
@@ -323,6 +324,30 @@ where storyID = ?;";
             die("Sorry Database Error..." . $e->getMessage());
         }
 
+    }
+
+    public function unOrLockStoryByStoryID($unOrLockedStoryID)
+    {
+        $query = "
+        SELECT locked
+        FROM story
+        WHERE storyID = ?
+        ";
+        $param = [$unOrLockedStoryID];
+        $result = $this->getMySQLQuery($query,$param);
+        $result = $result->fetch(PDO::FETCH_ASSOC);
+
+        if($result["locked"] == 1){
+            $result = 0;
+        }else{$result = 1;}
+
+        $query = "
+        UPDATE story
+        SET locked = ?
+        WHERE storyID = ?
+        ";
+        $param = [$result, $unOrLockedStoryID];
+        $this->getMySQLQuery($query, $param);
     }
 
 

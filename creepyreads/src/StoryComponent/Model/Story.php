@@ -17,8 +17,9 @@ class Story {
     private $langType;
     private $otherAuthor;
     private $listOfComments;
+    private $isLocked;
 
-    public function __construct($thisStoryID,$userOwner, $thisStory, $title, $genre, $langType, $score, $listOfComments = [], $otherAuthor = ""){
+    public function __construct($thisStoryID,$userOwner, $thisStory, $title, $genre, $langType, $score, $listOfComments = [],$isLocked, $otherAuthor = ""){
         $this->thisStoryID = $thisStoryID;
         $this->userOwner = $userOwner;
         $this->thisStory = $thisStory;
@@ -28,6 +29,11 @@ class Story {
         $this->score = $score;
         $this->listOfComments = $listOfComments;
         $this->otherAuthor = $otherAuthor;
+        $this->isLocked = $isLocked;
+    }
+    public function getIsLocked()
+    {
+        return $this->isLocked;
     }
 
     public function getGenre()

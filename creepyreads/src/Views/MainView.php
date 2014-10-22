@@ -193,6 +193,16 @@ class MainView {
         }
         return false;
     }
+    public function didUserLockOrUnlock(){
+        if(isset($_POST['isLocked'])){
+            return $_POST['isLocked'];
+        }
+        return false;
+    }
+    public function getUnlockedStoryInfo()
+    {
+        return $unOrlockStoryID = (int)$_POST["storyID"];
+    }
 
     public function showEditStories($theListOfuserStories)
     {
@@ -206,14 +216,22 @@ class MainView {
             $genre = $theListOfuserStories[$i]->getGenre();
             $lanuage = $theListOfuserStories[$i]->getLangType();
             $storyId = $theListOfuserStories[$i]->getThisStoryID();
+            $isLocked = $theListOfuserStories[$i]->getIsLocked();
+
+            if($isLocked == 0){
+
+                $isLocked = "<form method='post'><input type='submit' name='isLocked' value='Lock' ><input type='hidden' name='storyID' value='$storyId'></form>";
+            }else{$isLocked = "<form method='post'><input type='submit' name='isLocked' value='unlock' ><input type='hidden' name='storyID' value='$storyId'></form>";}
 
             $ret .= "
             <div class='editListColumn''>
             <a class='title' href='?edit=$storyId'>{$title} (language: {$lanuage})</a>
+            $isLocked
             <p class='storyDetails'>Uploaded by: {$uploader}</p>
             <p class='storyDetails'>Author: {$author}</p>
             <p class='storyDetails'>Genre: {$genre}</p>
             <p class='storyDetails'>score: {$score} out of 10</p>
+
             </div>
             ";
 
@@ -305,5 +323,7 @@ class MainView {
         ";
         return $ret;
     }
+
+
 
 }

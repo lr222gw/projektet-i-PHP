@@ -100,12 +100,20 @@ class MasterController {
                 return $this->view->showEditThisStory($editThisStory);
 
             }else if($this->view->hasUserAccessedEdit()){
+
                 //hämta ner alla användarens stories
                 $userStories = $this->storyController->getListOfStoriesFromUser($this->db->getUserDetail($user,2));
                 $theListOfuserStories = $userStories->getListOfStories();
                 $theListOfuserStories = array_reverse($theListOfuserStories);
                 return $this->view->showEditStories($theListOfuserStories);
             }else{
+                $storyId = $this->view->didUserLockOrUnlock();// Kollar om användaren har försökt att låsa en story...
+                if($storyId != false){//
+                    $unOrLockedStoryID = $this->view->getUnlockedStoryInfo();
+                    $this->db->unOrLockStoryByStoryID($unOrLockedStoryID);
+                    $this->cookieJar->save("Your story lock status was changed!");
+                    $this->view->goToFirstPage();
+                }
                 return $this->view->presentEditStories();
             }
 

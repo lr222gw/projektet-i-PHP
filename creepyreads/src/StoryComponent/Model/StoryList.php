@@ -36,7 +36,9 @@ class StoryList{
                 $arrayOfStoryDetail[$i]['typeOfLangType'],
                 $arrayOfStoryDetail[$i]['finalScore'],
                 $arrayOfStoryDetail[$i]['listOfComments'],
+                $arrayOfStoryDetail[$i]["locked"],
                 $arrayOfStoryDetail[$i]['Author']);
+
         }
 
 
