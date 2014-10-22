@@ -350,5 +350,16 @@ where storyID = ?;";
         $this->getMySQLQuery($query, $param);
     }
 
+    public function removeStoryByID($StoryID)
+    {
+        $query = "
+        DELETE story
+        FROM story
+        WHERE storyID = ?
+        ";
+        $param = [$StoryID];
+        $this->getMySQLQuery($query, $param);
+    }
+
 
 }

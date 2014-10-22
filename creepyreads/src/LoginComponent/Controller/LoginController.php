@@ -132,6 +132,30 @@ class LoginController{
         }
 
     }
+    public function getUserPassForConfirm(){
+        return $this->view->getUserPassFromConfirm();
+    }
+    public function presentConfirmWihPass($user, $storyId)
+    {
+        return $this->view->presentConfirmWithPass($user, $storyId);
+
+    }
+
+    public function DidUserConfirmWithPass()
+    {
+        if(isset($_POST['confirmWithPass'])){
+            return true;
+        }
+        return false;
+    }
+
+    public function controlPassword($passwordToTest)
+    {
+
+        $result = $this->UserModel->checkIfPasswordIstrue($passwordToTest,$this->db->getUserDetail($this->checkForLoggedInAndReturnUserName(),0));
+
+        return $result;
+    }
 }
 
 

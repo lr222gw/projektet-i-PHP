@@ -84,6 +84,7 @@ class MasterController {
 
             $storyId = $this->view->didUserSelectStoryToEdit();
             if($this->view->hasUserEditStory()){
+
                 $EditedStoryData = $this->view->retrieveSubmittedData(true);
 
                 $this->view->clearPost();
@@ -107,13 +108,37 @@ class MasterController {
                 $theListOfuserStories = array_reverse($theListOfuserStories);
                 return $this->view->showEditStories($theListOfuserStories);
             }else{
+
                 $storyId = $this->view->didUserLockOrUnlock();// Kollar om användaren har försökt att låsa en story...
                 if($storyId != false){//
-                    $unOrLockedStoryID = $this->view->getUnlockedStoryInfo();
+
+                    $unOrLockedStoryID = $this->view->getLastStoryID();
                     $this->db->unOrLockStoryByStoryID($unOrLockedStoryID);
                     $this->cookieJar->save("Your story lock status was changed!");
                     $this->view->goToFirstPage();
                 }
+                if($this->view->didUserDeleteStory()){ // Användaren har påbörjat att radera en story
+
+                    $isConfirmed = $this->loginController->DidUserConfirmWithPass(); //har användaren fyllt i lösenordet, annar presentera lösenordboxen
+                    if($isConfirmed ){
+                        $passwordToTest = $this->loginController->getUserPassForConfirm();
+                        if($this->loginController->controlPassword($passwordToTest)){ // om lösenordet stämmer så tar vi bort historien, annars inte..
+                            $StoryID = $this->view->getLastStoryID();
+                            $this->db->removeStoryByID($StoryID);
+                            $this->cookieJar->save("Your story was deleted!");
+                            $this->view->goToFirstPage();
+                        }else{
+                            $this->cookieJar->save("Your story was not deleted!");
+                            $this->view->goToFirstPage();
+                        }
+
+                    }else{
+                        return $this->loginController->presentConfirmWihPass($user,$this->view->getLastStoryID());
+                    }
+
+
+                }
+
                 return $this->view->presentEditStories();
             }
 

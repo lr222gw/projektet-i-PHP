@@ -199,9 +199,16 @@ class MainView {
         }
         return false;
     }
-    public function getUnlockedStoryInfo()
+    public function didUserDeleteStory(){
+        if(isset($_POST['delete'])){
+            return true;
+        }
+        return false;
+    }
+
+    public function getLastStoryID()
     {
-        return $unOrlockStoryID = (int)$_POST["storyID"];
+        return $StoryID = (int)$_POST["storyID"];
     }
 
     public function showEditStories($theListOfuserStories)
@@ -226,7 +233,7 @@ class MainView {
             $ret .= "
             <div class='editListColumn''>
             <a class='title' href='?edit=$storyId'>{$title} (language: {$lanuage})</a>
-            $isLocked
+            $isLocked<form method='post'><input type='submit' name='delete' value='Delete Story' ><input type='hidden' name='storyID' value='$storyId'></form>
             <p class='storyDetails'>Uploaded by: {$uploader}</p>
             <p class='storyDetails'>Author: {$author}</p>
             <p class='storyDetails'>Genre: {$genre}</p>
@@ -323,6 +330,9 @@ class MainView {
         ";
         return $ret;
     }
+
+
+
 
 
 

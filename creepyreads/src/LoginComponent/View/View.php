@@ -379,5 +379,30 @@ class view {
         $this->message = $message;
     }
 
+    public function presentConfirmWithPass($user, $storyID)
+    {
+        $owner = $this->getUserName();
+        $ret = "
+        <form action='' method='post' id='confirmForm'>
+            <fieldset>
+                <legend>Fill in your pass to confirm!</legend>
+                <label for='pass'>Password :</label>
+                <input type='text' size='100' name='pass' id='pass' required>
+                <input type='submit' name='confirmWithPass' value='Confirm!'>
+                <input type='hidden' name='user' value='$user'>
+                <input type='hidden' name='storyID' value='$storyID'>
+                <input type='hidden' name='confirmWithPass' >
+                <input type='hidden' name='delete' >
+            </fieldset>
+        </form>
+        ";
+        return $ret;
+    }
+
+    public function getUserPassFromConfirm()
+    {
+        return $_POST["pass"];
+    }
+
 
 }
