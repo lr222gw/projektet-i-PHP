@@ -16,17 +16,25 @@ class MainView {
     {
         $ret = '';
         for($i=0; $i<count($arrOfStories);$i++){//loopar igenom alla stories och gör dem till html
-            $title = $arrOfStories[$i]->getTitle();
-            $story = $arrOfStories[$i]->getThisStory();
-            $score = $arrOfStories[$i]->getScore();
-            $uploader = $arrOfStories[$i]->getUserOwner();
-            $author = $arrOfStories[$i]->getOtherAuthor();
-            $genre = $arrOfStories[$i]->getGenre();
-            $lanuage = $arrOfStories[$i]->getLangType();
 
-            $ret .= "
+            $ret .= $this->getStoryForView($arrOfStories[$i]);
+        }
+
+        return $ret;
+    }
+    public function getStoryForView($storyToAdd){
+
+        $title = $storyToAdd->getTitle();
+        $story = $storyToAdd->getThisStory();
+        $score = $storyToAdd->getScore();
+        $uploader = $storyToAdd->getUserOwner();
+        $author = $storyToAdd->getOtherAuthor();
+        $genre = $storyToAdd->getGenre();
+        $lanuage = $storyToAdd->getLangType();
+        $storyID = $storyToAdd->getThisStoryID();
+        $ret = "
             <div class='listStoryColumn''>
-            <a class='title'>{$title} (language: {$lanuage})</a>
+            <a class='title' href='?read={$storyID}'>{$title} (language: {$lanuage})</a>
             <p class='storyDetails'>Uploaded by: {$uploader}</p>
             <p class='storyDetails'>Author: {$author}</p>
             <p class='storyDetails'>Genre: {$genre}</p>
@@ -40,11 +48,48 @@ class MainView {
 
             </div>
             ";
+        return $ret;
 
+
+    }
+    public function getCommentsForStory($storyToGetComments){
+
+        $commentSection = '<h3>Comment Section</h3>';
+        $commentList = $storyToGetComments->getListOfComments();
+        for($i=0; $i<count($commentList); $i++){
+            $comment = $commentList[$i]->getComment();
+            $memberName = $commentList[$i]->getUserName();
+            $commentSection .= "
+            <div class='commentSection'>
+            <h4>$memberName</h4>
+            <p>$comment</p>
+            </div>
+            ";
         }
 
+        return $commentSection;
+    }
 
+    public function getUserComment()
+    {
+        if(isset($_POST['commentButton'])){
+            return $_POST['comment'];
+        }
+        return false;
+    }
 
+    public function getCommentBox()
+    {
+        $ret = "
+        <div id='commentBox'>
+        <form method='post'>
+            <label for='comment'>Write a comment</label>
+            <input type='text' name='comment'>
+            <input type='submit' name='commentButton' value='Submit!'>
+        </form>
+        </div>
+
+        ";
         return $ret;
     }
 
@@ -332,8 +377,17 @@ class MainView {
     }
 
 
-
-
+    /**
+     * @return bool
+     *
+     */
+    public function readWhatStory(){
+        if (isset($_GET["read"])){
+            return $_GET["read"];
+        }else{
+            return false;
+        }
+    }
 
 
 }

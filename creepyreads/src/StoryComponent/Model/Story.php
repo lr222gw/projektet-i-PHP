@@ -8,8 +8,6 @@
 class Story {
     private $thisStory;
     private $thisStoryID;
-
-
     private $userOwner;
     private $title;
     private $genre;
@@ -31,6 +29,7 @@ class Story {
         $this->otherAuthor = $otherAuthor;
         $this->isLocked = $isLocked;
     }
+
     public function getIsLocked()
     {
         return $this->isLocked;
@@ -76,6 +75,10 @@ class Story {
     public function getThisStoryID()
     {
         return $this->thisStoryID;
+    }
+    public function getListOfComments()
+    {
+        return $this->listOfComments;
     }
 
 }

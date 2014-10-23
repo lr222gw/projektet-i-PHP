@@ -138,9 +138,10 @@ WHERE userName = ?;";
     }
     public function getCommentsFromStoryID($storyID){
         $query = "
-        select story.storyID, comments.comment
+        select story.storyID, comments.comment, comments.memberID, member.userName
         from story
 	    left join comments	on comments.storyID = story.storyID
+	    LEFT JOIN member ON comments.memberID = member.memberID
         where story.storyID = ?;";
         $param = [$storyID];
         $comment = $this->getMySQLQuery($query,$param);
@@ -358,6 +359,15 @@ where storyID = ?;";
         WHERE storyID = ?
         ";
         $param = [$StoryID];
+        $this->getMySQLQuery($query, $param);
+    }
+
+    public function addCommentToStory($storyID, $userID, $submittedStory)
+    {
+        $query = "
+        INSERT INTO comments(storyID, memberID, comment)
+        values(?,?,?);";
+        $param = [$storyID, $userID, $submittedStory];
         $this->getMySQLQuery($query, $param);
     }
 

@@ -31,6 +31,31 @@ class MasterController {
     public function getLoginModule(){
         return $this->loginController->doControl();
     }
+
+    public function getContent(){
+        $storyID = $this->view->readWhatStory();
+
+        if($storyID != false){ //$storyID har ett id, om ej så är den false
+            $submittedStory = $this->view->getUserComment();
+            if($submittedStory != false){
+                $this->storyController->addCommentToStory($storyID, $this->db->getUserDetail($this->loginController->checkForLoggedInAndReturnUserName(),2), $submittedStory);
+                header('Location: '.$_SERVER['HTTP_REFERER']);
+                //var_dump($_SERVER);
+                die;
+            }
+            $story = $this->storyController->getStoryFromStoryID($storyID);
+            $storyhtml = $this->view->getStoryForView($story);
+            $storyhtml .= $this->view->getCommentsForStory($story);
+            $storyhtml .= $this->view->getCommentBox();
+
+
+            return $storyhtml;
+        }
+
+        return $this->getListContent();
+
+    }
+
     public function getListContent(){
         $ListOfStories = $this->storyController->getListOfStoreis();
 
@@ -39,6 +64,7 @@ class MasterController {
         $arrOfStories = array_reverse($arrOfStories); // ser till att den nyaste ligger först...
 
         $result = $this->view->showListOfStories($arrOfStories);
+
 
         return $result;
     }

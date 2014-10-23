@@ -7,6 +7,7 @@
  */
 require_once("src/Models/DOA_dbMaster.php");
 require_once("src/StoryComponent/Model/StoryList.php");
+require_once("src/StoryComponent/Model/Comment.php");
 class StoryController {
 
     private $db;
@@ -19,6 +20,7 @@ class StoryController {
         $listOfStories = $this->db->getAllStoriesAndDetails(); //TODO: ändra så vi bara hämtar, typ 50... gör så denna funktion hämtar ut ett visst antal stories...
         $refinedList = $this->getScoreAndCommentsForStory($listOfStories);
         $storyList = new StoryList($refinedList);
+
         return $storyList;
     }
     public function getStoryFromStoryID($storyID){
@@ -41,7 +43,9 @@ class StoryController {
             $thisStoryCommentList = $this->db->getCommentsFromStoryID($listOfStories[$i]['storyID']);
             $thisStoryScoreData = $this->db->getScoreDataFromStoryID($listOfStories[$i]['storyID']);
             for($j = 0; $j < count($thisStoryCommentList); $j++){
-                $listOfStories[$i]['listOfComments'][$j] = $thisStoryCommentList[$j]['comment'];
+                $listOfStories[$i]['listOfComments'][$j] = new Comment(
+                    $thisStoryCommentList[$j]["memberID"],$thisStoryCommentList[$j]["userName"],$thisStoryCommentList[$j]["storyID"],$thisStoryCommentList[$j]['comment']
+                );
             }
 
             $finalScore = 0;
@@ -58,6 +62,11 @@ class StoryController {
 
         }
         return $listOfStories;
+    }
+
+    public function addCommentToStory($storyID, $user, $submittedStory)
+    {
+        $this->db->addCommentToStory($storyID, $user, $submittedStory);
     }
 
 }
