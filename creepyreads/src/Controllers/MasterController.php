@@ -31,28 +31,51 @@ class MasterController {
     public function getLoginModule(){
         return $this->loginController->doControl();
     }
-
-    public function getContent(){
+    public function getStoryContent(){
         $storyID = $this->view->readWhatStory();
 
         if($storyID != false){ //$storyID har ett id, om ej så är den false
+
             $submittedStory = $this->view->getUserComment();
             if($submittedStory != false){
                 $this->storyController->addCommentToStory($storyID, $this->db->getUserDetail($this->loginController->checkForLoggedInAndReturnUserName(),2), $submittedStory);
+                $this->cookieJar->save("Your comment was added!");
                 header('Location: '.$_SERVER['HTTP_REFERER']);
-                //var_dump($_SERVER);
+                die;
+            }
+            if($this->view->didUserVote()){
+                $voteData = $this->view->getUserVoteData();
+                $this->db->addScoreToStory($voteData, $storyID, $this->db->getUserDetail($this->loginController->checkForLoggedInAndReturnUserName(),2));
+                $this->cookieJar->save("Your vote was added!");
+                header('Location: '.$_SERVER['HTTP_REFERER']);
                 die;
             }
             $story = $this->storyController->getStoryFromStoryID($storyID);
             $storyhtml = $this->view->getStoryForView($story);
-            $storyhtml .= $this->view->getCommentsForStory($story);
-            $storyhtml .= $this->view->getCommentBox();
+            if($this->loginController->checkForLoggedInAndReturnUserName() != false){
+                $storyhtml .= $this->view->getVoteForStory();
+                $storyhtml .= $this->view->getCommentsForStory($story);
+                $storyhtml .= $this->view->getCommentBox();
+            }else{
+                $storyhtml .= $this->view->getCommentsForStory($story);
+            }
+
 
 
             return $storyhtml;
         }
+        return false;
+    }
 
-        return $this->getListContent();
+    public function getContent(){
+        $returnThis = $this->getStoryContent();
+        if($returnThis == false){ // om ingen specifik story har valts så ska vi hämta lista
+
+            $returnThis = $this->getListContent();
+
+        }
+
+        return $returnThis;
 
     }
 
@@ -76,10 +99,8 @@ class MasterController {
         if($user != false){ // om user inte är false!
             $this->view->hasUserbacked();
 
-            $this->htmlview->addMessageToShow($this->cookieJar->load());
-
             if($this->view->hasUserSubmited()){
-
+                $this->htmlview->addMessageToShow($this->cookieJar->load());
                 //om användaren har submittat så ska vi försöka spara ner datan...
                 $newStoryData = $this->view->retrieveSubmittedData();
 

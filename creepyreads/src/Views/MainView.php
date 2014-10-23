@@ -32,6 +32,7 @@ class MainView {
         $genre = $storyToAdd->getGenre();
         $lanuage = $storyToAdd->getLangType();
         $storyID = $storyToAdd->getThisStoryID();
+
         $ret = "
             <div class='listStoryColumn''>
             <a class='title' href='?read={$storyID}'>{$title} (language: {$lanuage})</a>
@@ -48,6 +49,7 @@ class MainView {
 
             </div>
             ";
+
         return $ret;
 
 
@@ -387,6 +389,58 @@ class MainView {
         }else{
             return false;
         }
+    }
+
+    public function getUserVoteData(){
+        $voteDataArr = [];
+        if(isset($_POST["ScaryBox"])){
+            $voteDataArr["Scary"] = $_POST["Scary"];
+        }
+        if(isset($_POST["ReadabilityBox"])){
+            $voteDataArr["Readability"] = $_POST["Readability"];
+        }
+        if(isset($_POST["ShiversBox"])){
+            $voteDataArr["Shivers"] = $_POST["Shivers"];
+        }
+        if(isset($_POST["UniqueBox"])){
+            $voteDataArr["Unique"] = $_POST["Unique"];
+        }
+        if(isset($_POST["CorrespondgenreBox"])){
+            $voteDataArr["Correspondgenre"] = $_POST["Correspondgenre"];
+        }
+        return $voteDataArr;
+    }
+    public function didUserVote(){
+        if(isset($_POST["voted"])){
+            return true;
+        }
+        return false;
+    }
+
+    public function getVoteForStory()
+    {
+        $ret = "
+        <h3>Don't forget to vote!</h3>
+        <form method='post'>
+            <label for='Scary'>Scary</label>
+            <input type='checkbox' name='ScaryBox' checked='true'>
+            <input type='range' name='Scary' min='1' max='10' step='1' value='5'>
+            <label for='Readability'>Readability</label>
+            <input type='checkbox' name='ReadabilityBox' >
+            <input type='range' name='Readability' min='1' max='10' step='1' value='5'>
+            <label for='Shivers'>Shivers</label>
+            <input type='checkbox' name='ShiversBox'>
+            <input type='range' name='Shivers' min='1' max='10' step='1' value='5'>
+            <label for='Unique'>Unique</label>
+            <input type='checkbox' name='UniqueBox' >
+            <input type='range' name='Unique' min='1' max='10' step='1' value='5'>
+            <label for='Correspondgenre'>Corresponds to the genre</label>
+            <input type='checkbox' name='CorrespondgenreBox' >
+            <input type='range' name='Correspondgenre' min='1' max='10' step='1' value='5'>
+            <input type='submit' value='Place vote!' name='voted'>
+        </form>
+        ";
+            return $ret;
     }
 
 

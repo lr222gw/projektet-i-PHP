@@ -123,7 +123,7 @@ WHERE userName = ?;";
 
     public function getScoreDataFromStoryID($storyID){
         $query = "
-        select story.storyID, scoreValue.scoreValue
+        select story.storyID, scoreValue.scoreValue, score.memberID
         from story
 	    left join score	on score.storyID = story.storyID
 	    left JOIN scoreValue on score.scoreValueID = scoreValue.scoreValueID
@@ -369,6 +369,42 @@ where storyID = ?;";
         values(?,?,?);";
         $param = [$storyID, $userID, $submittedStory];
         $this->getMySQLQuery($query, $param);
+    }
+
+    public function addScoreToStory($voteData, $storyID, $userID)
+    {
+        foreach($voteData as $theKey => $value){
+
+            $toInt = (int)$value;
+            $resultOfLimit = $this->clearIfAlreadyVoted($storyID, $userID, $theKey);
+            $query="
+            INSERT INTO score(storyID, memberID, scoreTypeID, scoreValueID)
+            VALUES (?,?,(select scoretypeID from scoreType where scoreType.typeOfScoreType = ? ), ?)
+            ";
+            $param = [$storyID,$userID,$theKey,$toInt];
+            $this->getMySQLQuery($query,$param);
+        }
+    }
+    private function clearIfAlreadyVoted($storyID, $userID, $voteDataValue){
+        //returnerar den post som behöver tas bort om användaren ska
+        //lägga till en vote, false om det ej finns någon föregående vote...
+        $query = "
+        SELECT scoreID
+        FROM score
+        WHERE storyID = ? && memberID = ? && scoreTypeID = (select scoretypeID from scoreType where scoreType.typeOfScoreType = ? )
+        ";
+        $param = [$storyID, $userID, $voteDataValue];
+        $result = $this->getMySQLQuery($query,$param);
+        $result = (int)$result->fetch(PDO::FETCH_COLUMN);
+
+        $query = "
+        DELETE score
+        FROM score
+        WHERE scoreID = ?
+        ";
+        $param = [$result];
+        $this->getMySQLQuery($query,$param);
+
     }
 
 

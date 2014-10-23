@@ -11,6 +11,7 @@ require_once("src/Controllers/MasterController.php");
  * Time: 18:57
  */
 session_start();
+
 $htmlview = new HTMLview();
 
 $masterController = new MasterController($htmlview);
