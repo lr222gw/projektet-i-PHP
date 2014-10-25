@@ -24,6 +24,14 @@ class HTMLview{
                 <title>CreepyReads</title>
                 </head>
                 <body>
+                <ul id='menu'>
+                    <li>
+                    <a href='?home'>Home</a>
+                    </li>
+                    <li>
+                    <a href='?backpack'>My Backpack</a>
+                    </li>
+                </ul>
                     $message
                     <div id='editStory'>
                     $editStories

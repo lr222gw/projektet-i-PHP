@@ -106,4 +106,22 @@ class StoryController {
         $this->db->addCommentToStory($storyID, $user, $submittedStory);
     }
 
+    public function getListOfBackpackFromUser($userID)
+    {
+        $backpackOfStories = $this->db->getBackpackStories($userID);
+        $refinedList = $this->getScoreAndCommentsForStory($backpackOfStories);
+        $storyList = new StoryList($refinedList);
+        return $storyList;
+    }
+
+    public function addStoryToBackpack($storyID, $userID)
+    {
+        $this->db->addStoryToBackpack($storyID, $userID);
+    }
+
+    public function removeStoryFromBackpack($storyID, $userID)
+    {
+        $this->db->removeStoryFromBackpack($storyID, $userID);
+    }
+
 }

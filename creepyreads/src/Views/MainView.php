@@ -12,17 +12,18 @@ class MainView {
 
     }
 
-    public function showListOfStories($arrOfStories)
+    public function showListOfStories($arrOfStories, $isThisBackpack = false)
     {
+
         $ret = '';
         for($i=0; $i<count($arrOfStories);$i++){//loopar igenom alla stories och gör dem till html
 
-            $ret .= $this->getStoryForView($arrOfStories[$i]);
+            $ret .= $this->getStoryForView($arrOfStories[$i], $isThisBackpack);
         }
 
         return $ret;
     }
-    public function getStoryForView($storyToAdd){
+    public function getStoryForView($storyToAdd, $isThisBackpack = false){
 
         $title = $storyToAdd->getTitle();
         $story = $storyToAdd->getThisStory();
@@ -33,9 +34,19 @@ class MainView {
         $lanuage = $storyToAdd->getLangType();
         $storyID = $storyToAdd->getThisStoryID();
 
+        if($isThisBackpack == true){
+            $isThisBackpack = "
+            <form method='post'>
+                <input type='submit' name='removeFromBackpack' value='Remove!'>
+                <input type='hidden' name='storyIDToRemove' value='$storyID'>
+            </form>
+            ";
+        }else{ $isThisBackpack = "<a class='addToBackpack' href='?addToBackpack={$storyID}'>Add to backpack!</a>"; }
+
         $ret = "
             <div class='listStoryColumn''>
             <a class='title' href='?read={$storyID}'>{$title} (language: {$lanuage})</a>
+            $isThisBackpack
             <p class='storyDetails'>Uploaded by: {$uploader}</p>
             <p class='storyDetails'>Author: {$author}</p>
             <p class='storyDetails'>Genre: {$genre}</p>
@@ -223,8 +234,9 @@ class MainView {
     }
 
     public function presentEditStories(){
+        //<h3>Edit Your Stories</h3> <-- tog bort denna... blev rörigt
         $ret = "
-        <h4>Edit Your Stories</h4>
+
         <form action='' method='Post'>
             <input type='submit' name='editstories' value='Manage Stories'>
         </form>
@@ -260,7 +272,7 @@ class MainView {
 
     public function showEditStories($theListOfuserStories)
     {
-        $ret = '';
+        $ret = '<h3>Manage your stories</h3>';
         for($i=0; $i<count($theListOfuserStories);$i++){//loopar igenom alla stories och gör dem till html
             $title = $theListOfuserStories[$i]->getTitle();
             $story = $theListOfuserStories[$i]->getThisStory();
@@ -276,6 +288,7 @@ class MainView {
 
                 $isLocked = "<form method='post'><input type='submit' name='isLocked' value='Lock' ><input type='hidden' name='storyID' value='$storyId'></form>";
             }else{$isLocked = "<form method='post'><input type='submit' name='isLocked' value='unlock' ><input type='hidden' name='storyID' value='$storyId'></form>";}
+
 
             $ret .= "
             <div class='editListColumn''>
@@ -441,6 +454,38 @@ class MainView {
         </form>
         ";
             return $ret;
+    }
+
+    public function didUserOpenBackpack()
+    {
+        if(isset($_GET["backpack"])){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function getBackpackView($listOfStorysInBackpack)
+    {
+        $presentation = "<h3>Stories in your backpack</h3>";
+        return $presentation.$this->showListOfStories($listOfStorysInBackpack,true);
+    }
+    public function getStoryToRemoveFromBackpack(){
+
+        if(isset($_POST["removeFromBackpack"])){
+            return $_POST["storyIDToRemove"];
+        }
+        return false;
+    }
+
+    public function getAddedStoryToBackpackID()
+    {
+        if(isset($_GET["addToBackpack"])){
+            return $_GET["addToBackpack"];
+        }
+        else{
+            return false;
+        }
     }
 
 

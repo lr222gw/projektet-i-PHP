@@ -66,8 +66,23 @@ class MasterController {
         }
         return false;
     }
+    public function getBackpackView(){
+        $listOfStorysInBackpack = $this->storyController->getListOfBackpackFromUser($this->db->getUserDetail($this->loginController->checkForLoggedInAndReturnUserName(),2));
+        $listOfStorysInBackpack = $listOfStorysInBackpack->getListOfStories();
+        $listOfStorysInBackpack = array_reverse($listOfStorysInBackpack); // ser till att den nyaste ligger först...
+
+        $backpackView = $this->view->getBackpackView($listOfStorysInBackpack);
+        return $backpackView;
+    }
 
     public function getContent(){
+        $this->statusController();
+        if($this->view->didUserOpenBackpack()){
+
+            $backpackView = $this->getBackpackView();
+            return $backpackView;
+        }
+
         $returnThis = $this->getStoryContent();
         if($returnThis == false){ // om ingen specifik story har valts så ska vi hämta lista
 
@@ -188,6 +203,20 @@ class MasterController {
 
                 return $this->view->presentEditStories();
             }
+
+        }
+    }
+
+    private function statusController()
+    {
+        $storyToAddToBackpack = $this->view->getAddedStoryToBackpackID();
+        if($storyToAddToBackpack != false){//kollar av om en story ska läggas till i backpack...
+            $this->storyController->addStoryToBackpack($storyToAddToBackpack, $this->db->getUserDetail($this->loginController->checkForLoggedInAndReturnUserName(),2));
+            // Litet meddelande här?
+        }
+        $storyToRemoveFromBackpack = $this->view->getStoryToRemoveFromBackpack();
+        if($storyToRemoveFromBackpack  != false){
+            $this->storyController->removeStoryFromBackpack($storyToRemoveFromBackpack, $this->db->getUserDetail($this->loginController->checkForLoggedInAndReturnUserName(),2));
 
         }
     }
