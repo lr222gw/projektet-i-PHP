@@ -488,5 +488,58 @@ class MainView {
         }
     }
 
+    public function hasUserChangedYTPlaylist()
+    {
+        if(isset($_POST["userChangedPlaylist"])){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public function getUserYTPlaylist()
+    {
+        if(isset($_POST["userChangedPlaylist"])){
+            return $_POST["userChangedPlaylist"];
+        }
+        else{
+            return false;
+        }
+    }
+    public function getYTPlaylistInput(){
+        $ret = "
+        <form method='post'>
+            <label for='userChangedPlaylist'>Add custom Youtube playlist-URL</label>
+            <input type='text' name='userChangedPlaylist'>
+            <input type='submit' value='Change Playlist'>
+        </form>
+        <form method='post'>
+            <input type='submit' name='userChangedToStandardYT' value='Use Standard'>
+        </form>
+        <form method='post'>
+            <input type='submit' name='Autoplay' value='Autoplay'>
+        </form>
+        ";
+        return $ret;
+    }
+    public function hasUserChangedYTAutoplay()
+    {
+        if(isset($_POST["Autoplay"])){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public function hasUserChangedYTPlaylistToStandard()
+    {
+        if(isset($_POST["userChangedToStandardYT"])){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 
 }

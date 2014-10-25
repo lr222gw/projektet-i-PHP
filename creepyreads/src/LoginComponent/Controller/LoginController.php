@@ -7,7 +7,7 @@
  */
 include_once("src/LoginComponent/View/View.php");
 include_once("src/LoginComponent/Model/UserModel.php");
-include_once("src/LoginComponent/CookieJar.php");
+include_once("src/Models/cookieJar.php");
 include_once("src/Models/DOA_dbMaster.php");
 
 class LoginController{

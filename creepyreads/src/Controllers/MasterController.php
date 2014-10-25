@@ -6,11 +6,13 @@
  * Time: 19:07
  */
 require_once("src/Models/DOA_dbMaster.php");
+require_once("src/Models/YoutubePlayer.php");
+require_once("src/Models/cookieJar.php");
 require_once("src/LoginComponent/Controller/LoginController.php");
 require_once("src/StoryComponent/Controller/StoryController.php");
 require_once("src/Views/MainView.php");
 require_once("src/Views/HTMLview.php");
-require_once("src/LoginComponent/CookieJar.php");
+include_once("src/Models/cookieJar.php");
 class MasterController {
     private $storyController;
     private $db;
@@ -219,6 +221,29 @@ class MasterController {
             $this->storyController->removeStoryFromBackpack($storyToRemoveFromBackpack, $this->db->getUserDetail($this->loginController->checkForLoggedInAndReturnUserName(),2));
 
         }
+    }
+
+    public function getYoutubePlayer()
+    {
+        $standardPlaylist = "?list=PL6674FE0F7323E5BC";
+        $player = new YoutubePlayer($standardPlaylist, true);//strängen är standardlistan...
+
+        if($this->view->hasUserChangedYTPlaylist()){
+            $this->cookieJar->setCookieForYTPlaylist($this->view->getUserYTPlaylist());
+        }
+
+        if($this->cookieJar->isCookieForYTSet()){
+            $player->changePlaylist($this->cookieJar->getYTplaylistFromCookie());
+        }
+        if($this->view->hasUserChangedYTPlaylistToStandard()){
+            $this->cookieJar->setCookieForYTPlaylist($standardPlaylist);
+        }
+        if($this->view->hasUserChangedYTAutoplay()){
+            $this->cookieJar->setCookieForYTAutoPlay();
+        }
+        $player->turnOnAutoPlay($this->cookieJar->getCookieForYTAutoPlay());
+
+        return $player->getPlayListPlayer().$this->view->getYTPlaylistInput();
     }
 
 

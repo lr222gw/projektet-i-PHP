@@ -10,7 +10,7 @@ class HTMLview{
         $_POST['message'] = $message;
 
     }
-    public function presentPage($loginBox, $content, $uploadstorybox, $editStories){
+    public function presentPage($loginBox, $content, $uploadstorybox, $editStories, $youTube){
         if(isset($_POST['message'])){
             $message = "<p id='messageToUser'>".$_POST['message']."</p>";
         }else{ $message = "";}
@@ -42,6 +42,9 @@ class HTMLview{
                     $content
                     <div id='loginBox'>
                     $loginBox
+                    </div>
+                    <div id='youtubeplayer'>
+                    $youTube
                     </div>
                     <p style='bottom: 0; position: fixed; color: red; font-weight: bold;'>Obs, sidan använder cookies, genom att använda applikationen godkänner du cookies.</p>
                 </body>

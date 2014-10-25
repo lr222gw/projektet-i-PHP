@@ -7,7 +7,7 @@
  */
 require_once("src/LoginComponent/Model/Date.php");
 include_once("src/LoginComponent/Model/UserModel.php");
-include_once("src/LoginComponent/CookieJar.php");
+include_once("src/Models/cookieJar.php");
 
 class view {
     private $model;

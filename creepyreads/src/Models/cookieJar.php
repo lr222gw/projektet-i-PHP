@@ -12,8 +12,8 @@ class CookieJar {
     private static $cookieMessage = "CookieMessage";
     private static $cookieUserName = "CookieUserName";
     private static $cookieUserPass = "CookieUserPass";
-
-
+    private static $ytPlaylist = "ytPlaylist";
+    private static $autoplay = "autoplay";
 
     public function __construct(){
 
@@ -71,7 +71,7 @@ class CookieJar {
         if($trueForUser){
             return $_COOKIE["CookieUserName"];
         }else{
-            return $_COOKIE["CookieUserPass"];
+            return $_COOKIE["CookieUserPass"];//What is this??...
         }
 
     }
@@ -79,6 +79,41 @@ class CookieJar {
     public function clearUserForRememberMe(){
         setcookie(self::$cookieUserName, null, -1);
         setcookie(self::$cookieUserPass, null, -1);
+    }
+
+    public function setCookieForYTPlaylist($playlistToRemember){
+        setcookie(self::$ytPlaylist,$playlistToRemember,-1);
+        $_COOKIE[self::$ytPlaylist] = $playlistToRemember;
+    }
+    public function setCookieForYTAutoPlay(){
+
+        if($_COOKIE[self::$autoplay] == true){
+            setcookie(self::$autoplay,false,-1);
+            $_COOKIE[self::$autoplay] = false;
+        }else{
+            setcookie(self::$autoplay,true,-1);
+            $_COOKIE[self::$autoplay] = true;
+        }
+
+    }
+    public function getCookieForYTAutoPlay(){
+
+        if(isset($_COOKIE[self::$autoplay])){
+            return $_COOKIE[self::$autoplay];
+        }
+        return false;
+    }
+    public function getYTplaylistFromCookie(){
+        if(isset($_COOKIE[self::$ytPlaylist])){
+            return $_COOKIE[self::$ytPlaylist];
+        }
+        return false;
+    }
+    public function isCookieForYTSet(){
+        if(isset($_COOKIE[self::$ytPlaylist])){
+            return true;
+        }
+        return false;
     }
 
 }
