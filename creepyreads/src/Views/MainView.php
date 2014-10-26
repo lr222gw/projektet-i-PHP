@@ -468,7 +468,7 @@ class MainView {
         <h1>Don't forget to vote!</h1>
         <form method='post'>
             <label for='Scary'>Scary</label>
-            <input id='checkScary' type='checkbox' name='ScaryBox' checked='true'>
+            <input id='checkScary' type='checkbox' name='ScaryBox'>
             <input id='slideScary' type='range' name='Scary' min='1' max='10' step='1' value='5'>
             <label for='Readability'>Readability</label>
             <input id='checkRead' type='checkbox' name='ReadabilityBox' >
@@ -575,7 +575,7 @@ class MainView {
     public function getStoryFromStoryIDStructor($story,$isUserOnline){
 
         $storyhtml = "<div id='storyView'>";
-        $storyhtml .= $this->getStoryForView($story);
+        $storyhtml .= $this->getStoryForView($story, false, $isUserOnline);
         if($isUserOnline != false){
             $storyhtml .= "<div id='voteBox'>";
             $storyhtml .= $this->getVoteForStory();

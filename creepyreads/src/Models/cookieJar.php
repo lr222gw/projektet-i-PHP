@@ -6,7 +6,7 @@
  * Time: 18:40
  */
 
-
+require_once("src/LoginComponent/Model/FileMaster.php");
 class CookieJar {
     //Class "tagen" från lektionsexempel : https://github.com/dntoll/1dv408-HT14/blob/master/Like/src/CookieStorage.php
     private static $cookieMessage = "CookieMessage";
@@ -14,9 +14,10 @@ class CookieJar {
     private static $cookieUserPass = "CookieUserPass";
     private static $ytPlaylist = "ytPlaylist";
     private static $autoplay = "autoplay";
+    private $fileMaster;
 
     public function __construct(){
-
+         $this->fileMaster = new FileMaster();
     }
 
     public function save($stringToSave){
@@ -59,8 +60,8 @@ class CookieJar {
 
 
     public function saveUserForRememberMe($userName, $userPass){
-
-        $timestamp = $this->fileMaster->setAndGetTimestamp($userName, 50);
+        $longTime = 50000*30; //typ 15 dagar?...
+        $timestamp = $this->fileMaster->setAndGetTimestamp($userName, $longTime);
 
         setcookie(self::$cookieUserName, $userName, $timestamp);
         setcookie(self::$cookieUserPass, $userPass, $timestamp);

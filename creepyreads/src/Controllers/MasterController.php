@@ -53,7 +53,7 @@ class MasterController {
                 die;
             }
             $story = $this->storyController->getStoryFromStoryID($storyID);
-            $storyhtml = $this->view->getStoryFromStoryIDStructor($story,$this->loginController->checkForLoggedInAndReturnUserName());
+            $storyhtml = $this->view->getStoryFromStoryIDStructor($story,$this->loginController->checkForLoggedInAndReturnUserName() != false);
 
             return $storyhtml;
         }
