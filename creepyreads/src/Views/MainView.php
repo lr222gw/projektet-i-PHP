@@ -28,6 +28,7 @@ class MainView {
         $title = $storyToAdd->getTitle();
         $story = $storyToAdd->getThisStory();
         $score = $storyToAdd->getScore();
+        $score = round(floatval($score),2);
         $uploader = $storyToAdd->getUserOwner();
         $author = $storyToAdd->getOtherAuthor();
         $genre = $storyToAdd->getGenre();
@@ -242,14 +243,14 @@ class MainView {
 
     public function didUserSelectStoryToEdit()
     {
-        if(isset($_POST["edit"])){
-            return $_POST["edit"];
+        if(isset($_GET["edit"])){
+            return $_GET["edit"];
 
         }
         return false;
     }
 
-    public function presentEditStories(){
+ /*   public function presentEditStories(){
         //<h3>Edit Your Stories</h3> <-- tog bort denna... blev rörigt
         $ret = "
 
@@ -259,7 +260,7 @@ class MainView {
         ";
 
         return  $ret;
-    }
+    }*/
 
     public function hasUserAccessedEdit()
     {
@@ -289,7 +290,8 @@ class MainView {
 
     public function showEditStories($theListOfuserStories)
     {
-        $ret = '<h3>Manage your stories</h3>';
+        $ret = "<h3>Manage your stories</h3>
+        <div id='editList'>";
         for($i=0; $i<count($theListOfuserStories);$i++){//loopar igenom alla stories och gör dem till html
             $title = $theListOfuserStories[$i]->getTitle();
             $story = $theListOfuserStories[$i]->getThisStory();
@@ -300,6 +302,8 @@ class MainView {
             $lanuage = $theListOfuserStories[$i]->getLangType();
             $storyId = $theListOfuserStories[$i]->getThisStoryID();
             $isLocked = $theListOfuserStories[$i]->getIsLocked();
+
+            $score = round(floatval($score),2);
 
             if($isLocked == 0){
 
@@ -320,7 +324,7 @@ class MainView {
             ";
 
         }
-        return $ret;
+        return $ret."</div>";
     }
 
     public function showEditThisStory($editThisStory)

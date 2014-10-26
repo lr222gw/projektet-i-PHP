@@ -2,19 +2,18 @@ body {
     background-color: darkred;
     margin-bottom: 2.7%;
 }
-.list, #storyView{
+.list, #storyView, #editList{
     background-color: red;
     padding: 5px;
 }
 #menu {
     list-style: none;
-
+    display: flex;
 }
 #aboutcookie {
     box-shadow: inset rgb(0, 0, 0) 1px 4px 8px 26px;
 }
 #menu li{
-    float: left;
     background-color: rgb(255, 0, 0);
     padding: 10px;
     margin: 5px;
@@ -22,7 +21,7 @@ body {
 #loginBox{
     float: right;
 }
-.listStoryColumn {
+.listStoryColumn, .editListColumn {
     width: 60%;
     background-color: rgb(255, 105, 105);
     overflow-wrap: break-word;
@@ -124,8 +123,7 @@ input[type="submit"] {
     padding: 10px;
     margin-top: 5px;
 }
-element.style {
-}
+
 div#commentBox {
     background-color: rgba(255, 255, 255, 0.46);
     padding: 5px;
@@ -166,4 +164,10 @@ div#commentBox {
     display: block;
     font-family: sans-serif;
     font-size: 1.3em;
+}
+#messageToUser {
+    font-family: sans-serif;
+    font-size: 2em;
+    color: rgb(0, 255, 0);
+    margin: 0px;
 }

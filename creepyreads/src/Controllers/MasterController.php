@@ -113,7 +113,7 @@ class MasterController {
             $this->view->hasUserbacked();
 
             if($this->view->hasUserSubmited()){
-                $this->htmlview->addMessageToShow($this->cookieJar->load());
+                //$this->htmlview->addMessageToShow($this->cookieJar->load());
                 //om användaren har submittat så ska vi försöka spara ner datan...
                 $newStoryData = $this->view->retrieveSubmittedData();
 
@@ -145,6 +145,7 @@ class MasterController {
             $storyId = $this->view->didUserSelectStoryToEdit();
             if($this->view->hasUserEditStory()){
 
+
                 $EditedStoryData = $this->view->retrieveSubmittedData(true);
 
                 $this->view->clearPost();
@@ -162,6 +163,11 @@ class MasterController {
 
             }else if($this->view->hasUserAccessedEdit()){
 
+                $ifUserDidAction = $this->userMangageStoryAction($user);
+                if($ifUserDidAction != null){
+                    return $ifUserDidAction;
+                }
+
                 //hämta ner alla användarens stories
                 $userStories = $this->storyController->getListOfStoriesFromUser($this->db->getUserDetail($user,2));
                 $theListOfuserStories = $userStories->getListOfStories();
@@ -170,38 +176,40 @@ class MasterController {
                 return $this->view->showEditStories($theListOfuserStories);
             }else{
 
-                $storyId = $this->view->didUserLockOrUnlock();// Kollar om användaren har försökt att låsa en story...
-                if($storyId != false){//
-
-                    $unOrLockedStoryID = $this->view->getLastStoryID();
-                    $this->db->unOrLockStoryByStoryID($unOrLockedStoryID);
-                    $this->cookieJar->save("Your story lock status was changed!");
-                    $this->view->goToFirstPage();
-                }
-                if($this->view->didUserDeleteStory()){ // Användaren har påbörjat att radera en story
-
-                    $isConfirmed = $this->loginController->DidUserConfirmWithPass(); //har användaren fyllt i lösenordet, annar presentera lösenordboxen
-                    if($isConfirmed ){
-                        $passwordToTest = $this->loginController->getUserPassForConfirm();
-                        if($this->loginController->controlPassword($passwordToTest)){ // om lösenordet stämmer så tar vi bort historien, annars inte..
-                            $StoryID = $this->view->getLastStoryID();
-                            $this->db->removeStoryByID($StoryID);
-                            $this->cookieJar->save("Your story was deleted!");
-                            $this->view->goToFirstPage();
-                        }else{
-                            $this->cookieJar->save("Your story was not deleted!");
-                            $this->view->goToFirstPage();
-                        }
-
-                    }else{
-                        return $this->loginController->presentConfirmWihPass($user,$this->view->getLastStoryID());
-                    }
-
-
-                }
-
                 //return $this->view->presentEditStories();
             }
+
+        }
+    }
+
+    private function userMangageStoryAction($user){
+        $storyId = $this->view->didUserLockOrUnlock();// Kollar om användaren har försökt att låsa en story...
+        if($storyId != false){//
+
+            $unOrLockedStoryID = $this->view->getLastStoryID();
+            $this->db->unOrLockStoryByStoryID($unOrLockedStoryID);
+            $this->cookieJar->save("Your story lock status was changed!");
+            $this->view->goToFirstPage();
+        }
+        if($this->view->didUserDeleteStory()){ // Användaren har påbörjat att radera en story
+
+            $isConfirmed = $this->loginController->DidUserConfirmWithPass(); //har användaren fyllt i lösenordet, annar presentera lösenordboxen
+            if($isConfirmed ){
+                $passwordToTest = $this->loginController->getUserPassForConfirm();
+                if($this->loginController->controlPassword($passwordToTest)){ // om lösenordet stämmer så tar vi bort historien, annars inte..
+                    $StoryID = $this->view->getLastStoryID();
+                    $this->db->removeStoryByID($StoryID);
+                    $this->cookieJar->save("Your story was deleted!");
+                    $this->view->goToFirstPage();
+                }else{
+                    $this->cookieJar->save("Your story was not deleted!");
+                    $this->view->goToFirstPage();
+                }
+
+            }else{
+                return $this->loginController->presentConfirmWihPass($user,$this->view->getLastStoryID());
+            }
+
 
         }
     }
@@ -211,12 +219,15 @@ class MasterController {
         $storyToAddToBackpack = $this->view->getAddedStoryToBackpackID();
         if($storyToAddToBackpack != false){//kollar av om en story ska läggas till i backpack...
             $this->storyController->addStoryToBackpack($storyToAddToBackpack, $this->db->getUserDetail($this->loginController->checkForLoggedInAndReturnUserName(),2));
+            $this->cookieJar->save("Story added to backpack!");
+            $this->view->goToFirstPage();
             // Litet meddelande här?
         }
         $storyToRemoveFromBackpack = $this->view->getStoryToRemoveFromBackpack();
         if($storyToRemoveFromBackpack  != false){
             $this->storyController->removeStoryFromBackpack($storyToRemoveFromBackpack, $this->db->getUserDetail($this->loginController->checkForLoggedInAndReturnUserName(),2));
-
+            $this->cookieJar->save("Story was removed from backpack!");
+            $this->view->goToFirstPage();// UTAN DESSA SÅ BLIR EJ TEXTEN PÅVERKAD; VAFÖRÖRÖR?!"?!?!?
         }
     }
 

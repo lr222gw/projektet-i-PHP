@@ -125,10 +125,10 @@ class view {
                 //header(loc... börjar om från index.php och tömmer alla variabler som appen sparat...
             }else{
                 //om ingen utloggning efterfrågas så presenteras eventuella meddelande och inloggadskärm.
-                $message = $this->CookieJar->load();
-
+                //$message = $this->CookieJar->load();
+                //$message <-- har vart i $viewToReturn...
                 $viewToReturn = "
-                    $message
+
                     <p>Du är inloggad!</p>
                     <a href='?logout'>Logga ut</a>
                     ";
@@ -244,8 +244,8 @@ class view {
         }
 
         //Om det finns något att hämta i vår CookieMessage-kaka så ska den presenteras
-        $message3 = $this->CookieJar->load();
-
+        //$message3 = $this->CookieJar->load(); //gör detta på ett annat sätlle...
+            //<!--$message3 -->
         //Htmln som ska åka ut på klienten
         $ToClient ="
                     <h3>Ej inloggad</h3>
@@ -254,7 +254,6 @@ class view {
                         <fieldset>
                         $message
                         $message2
-                        $message3
 
                             <legend>Login - Skriv in användarnamn och lösenord</legend>
                             <label for='name'>Namn</label>
@@ -387,7 +386,7 @@ class view {
             <fieldset>
                 <legend>Fill in your pass to confirm!</legend>
                 <label for='pass'>Password :</label>
-                <input type='text' size='100' name='pass' id='pass' required>
+                <input type='password' size='100' name='pass' id='pass' required>
                 <input type='submit' name='confirmWithPass' value='Confirm!'>
                 <input type='hidden' name='user' value='$user'>
                 <input type='hidden' name='storyID' value='$storyID'>
