@@ -252,6 +252,18 @@ form#confirmForm fieldset input {
     width: 50%;
 }
 
+#page-cover {
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+}
+
 
 /*För mobiler*/
 @media only screen
