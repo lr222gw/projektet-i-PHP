@@ -35,6 +35,7 @@ class HTMLview{
                 <meta charset=\"utf-8\" />
                 <title>CreepyReads</title>
                 <link rel='stylesheet' href='src/css/style.css'>
+                <meta name='viewport' content='width=device-width, initial-scale=1'>
                 </head>
                 <body id='body'>
 
@@ -55,7 +56,7 @@ class HTMLview{
                     <div id='youtubeplayer'>
                     $youTube
                     </div>
-                    <p id='aboutcookie' style='bottom: 0; position: fixed; color: red; font-weight: bold;'>Obs, sidan använder cookies, genom att använda applikationen godkänner du cookies.</p>
+                    <!--<p id='aboutcookie' style='bottom: 0; position: fixed; color: red; font-weight: bold;'>Obs, sidan använder cookies, genom att använda applikationen godkänner du cookies.</p>-->
                     <script src='Script/script.js' type='text/javascript'></script>
                 </body>
                 </html>

@@ -4,6 +4,14 @@
 function toRun(){
     reziseLogin();
     reziseMusicPlayer();
+    allowCookies();
+}
+function allowCookies(){
+    if(localStorage["cookieAgreement"] !== "true"){
+        localStorage["cookieAgreement"] = confirm("To use this site you must accept cookies. Agree?");
+    }
+
+
 }
 function reziseMusicPlayer(){
     var youtubeplayer = document.getElementById("youtubeplayer");
@@ -71,4 +79,6 @@ function reziseLogin(){
 }
 
 
-window.onload(toRun());
+window.onload = function() {
+    toRun();
+}

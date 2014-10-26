@@ -17,6 +17,7 @@ body {
     background-color: rgb(255, 0, 0);
     padding: 10px;
     margin: 5px;
+    width: 100%;
 }
 #loginBox {
     float: right;
@@ -85,14 +86,14 @@ fieldset#login, fieldset#register  {
     bottom: 0px;
     border-radius: 35px 0px 0px 0px;
 }
-#youtubeplayer form {
-    display: inline-flex;
+div#youtubeplayer form {
+    display: flex;
 }
 .playlistchange input {
-    width: 202px;
+    width: 50%;
 }
 input[type="submit"] {
-    width: 204px;
+    width: 50%;
 }
 #storyView form label {
     display: block;
@@ -231,5 +232,102 @@ ul#menu li a {
     color: rgb(0, 0, 0);
 }
 ul#menu li a:hover {
-    
+
+}
+textarea#story {
+    width: 75%;
+    height: 400px;
+}
+form#confirmForm {
+    background-color: rgb(255, 0, 0);
+    font-family: sans-serif;
+    font-size: 1.2em;
+    padding: 10px;
+}
+form#confirmForm fieldset label {
+    display: flex;
+}
+form#confirmForm fieldset input {
+    width: 50%;
+}
+
+
+/*För mobiler*/
+@media only screen
+and (min-device-width : 200px)
+and (max-device-width : 1024px) {
+    /* Styles */
+    #body{
+
+    }
+    .listStoryColumn, .editListColumn {
+        width: 95%;
+        background-color: rgb(255, 105, 105);
+        overflow-wrap: break-word;
+        margin: 0 auto;
+        margin-bottom: 10px;
+        padding: 5px;
+        padding-bottom: 20px;
+    }
+    .list, #storyView, #editList {
+        background-color: rgb(255, 0, 0);
+         padding: 5px;
+    }
+    .title {
+        font-size: 1.3em;
+        font-family: sans-serif;
+        font-weight: 700;
+        color: rgb(0, 0, 0);
+        text-transform: capitalize;
+    }
+    #youtubeplayer {
+        background-color: rgb(0, 0, 0);
+        width: 100%;
+        position: static;
+        right: 0px;
+        border-radius: 0px 0px 0px 0px;
+        padding: 5px;
+        margin: -5px;
+        padding-bottom: 20px;
+        margin-top: 5px;
+    }
+    #loginBox {
+        float: none;
+        margin-bottom: -50px;
+        background-color: rgb(255, 255, 255);
+        padding: 10px;
+        font-size: 1.0em;
+        border-radius: 0px 0px 0px 20px;
+        width: 95%;
+        position: relative;
+    }
+    #voteBox {
+        background-color: rgb(166, 12, 12);
+        padding: 5px;
+        margin: 5px;
+        width: 95%;
+        margin-top: -10px;
+        border-top: rgb(0, 0, 0) solid 3px;
+        box-shadow: inset rgb(0, 0, 0) 10px 40px 60px -45px;
+        /*width: 95%;
+        background-color: rgb(255, 105, 105);
+        overflow-wrap: break-word;
+        margin: 0 auto;
+        margin-bottom: 10px;
+        padding: 5px;
+        padding-bottom: 20px;*/
+    }
+    #commentSection textarea {
+        height: 100px;
+        width: 95%;
+    }
+    #commentSection {
+        background-color: rgb(176, 0, 0);
+        padding: 5px;
+        margin: 5px;
+    }
+    textarea#story {
+        width: 95%;
+        height: 200px;
+    }
 }

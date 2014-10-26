@@ -162,7 +162,7 @@ class MainView {
         <div id='upload'>
         <form action='' method='post' id='regform'>
             <fieldset>
-                <legend>Register - Fill in user details</legend>
+                <legend>Upload Story</legend>
                 <label for='author' >Author :</label>
                 <input type='text' size='20' name='author' id='author' placeholder='Leave blank if its you'>
                 <label for='title'>Title :</label>
@@ -185,7 +185,7 @@ class MainView {
                   <option value=6>RU</option>
                 </select>
                 <label for='story'>Story to submit :</label>
-                <textarea type='story' name='story'  id='story' maxlength='50000' minlength='100' required rows='20' cols='160'></textarea>
+                <textarea type='story' name='story'  id='story' maxlength='50000' minlength='100' required></textarea>
                 <input type='submit' name='submit' value='Submit Story!'>
                 <input type='hidden' name='user' value='$user'>
             </fieldset>
@@ -590,7 +590,7 @@ class MainView {
 
     public function getMenu($userIsOnline)
     {
-        $ret = "<ul id='menu'>
+        $ret = "<div id='menuHolder'><ul id='menu'>
                     <li>
                     <a href='?home'>Home</a>
                     </li>";
@@ -614,7 +614,7 @@ class MainView {
 
 
 
-        $ret .= "</ul>";
+        $ret .= "</ul></div>";
 
         return $ret;
     }
