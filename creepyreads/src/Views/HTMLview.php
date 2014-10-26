@@ -21,9 +21,9 @@ class HTMLview{
 
     public function presentPage($loginBox, $content, $uploadstorybox,  $youTube, $menu){//$editStories
         $message1 = $this->cookieJar->load();
+
         if($message1 != null){
             $message = "<p id='messageToUser'>$message1</p>";//$_POST['message']
-
         }else{ $message = "";}
 
         //$editStories
@@ -36,13 +36,14 @@ class HTMLview{
                 <title>CreepyReads</title>
                 <link rel='stylesheet' href='src/css/style.css'>
                 </head>
-                <body>
-                    $menu
-                    $message
+                <body id='body'>
 
+                    $menu
                     <div id='loginBox'>
                     $loginBox
                     </div>
+                    $message
+
                     <div id='uploadStory'>
                     $uploadstorybox
                     </div>
@@ -55,6 +56,7 @@ class HTMLview{
                     $youTube
                     </div>
                     <p id='aboutcookie' style='bottom: 0; position: fixed; color: red; font-weight: bold;'>Obs, sidan använder cookies, genom att använda applikationen godkänner du cookies.</p>
+                    <script src='Script/script.js' type='text/javascript'></script>
                 </body>
                 </html>
 

@@ -21,14 +21,14 @@ class Date {
         if($clearText === TRUE){
             //om true så ska vi formatera texten så at den blir enligt UC 1.1
         $dayOfWeek = date('l');
-            $dayOfWeek = $this->getSwedishWeekNames($dayOfWeek); //översätter till svenska
+            //$dayOfWeek = $this->getSwedishWeekNames($dayOfWeek); //översätter till svenska
         $dayOfMonth = date('d');
         $Month = date('F');
-            $Month = $this->getSwedishMonthNames($Month); //översätter till svenska
+            //$Month = $this->getSwedishMonthNames($Month); //översätter till svenska
         $year = date('Y');
         $timeAndSec = date('H:i:s');
 
-        $datetime = $dayOfWeek . ", den " . $dayOfMonth . " " . $Month . " år " . $year . ". Klockan är [" . $timeAndSec ."]";
+        $datetime = $dayOfWeek . ", " . $dayOfMonth . " " . $Month . " year " . $year . ". The time is [" . $timeAndSec ."]";
         }
 
         return $datetime;

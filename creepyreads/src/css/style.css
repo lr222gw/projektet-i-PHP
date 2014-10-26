@@ -18,8 +18,18 @@ body {
     padding: 10px;
     margin: 5px;
 }
-#loginBox{
+#loginBox {
     float: right;
+    background-color: rgb(255, 255, 255);
+    padding: 10px;
+    font-size: 1.4em;
+    border-radius: 0px 0px 0px 20px;
+    width: 35%;
+    position: relative;
+    top: -65px;
+}
+fieldset#login, fieldset#register  {
+    display: flex;
 }
 .listStoryColumn, .editListColumn {
     width: 60%;
@@ -170,4 +180,56 @@ div#commentBox {
     font-size: 2em;
     color: rgb(0, 255, 0);
     margin: 0px;
+}
+.openMusicbutton {
+    float: right;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    height: 75px;
+    width: 75px;
+    border-radius: 65px 0px 0px;
+    overflow-wrap: break-word;
+    font-family: sans-serif;
+    text-align: end;
+}
+.openLoginButton {
+    height: 41px;
+    width: 65px;
+    border-radius: 0px 0px 0px 75px;
+    overflow-wrap: break-word;
+    font-family: sans-serif;
+    text-align: end;
+    position: absolute;
+    right: 10px;
+}
+#menu {
+     list-style: none;
+     display: flex;
+     background-color: rgb(0, 0, 0);
+     width: 100%;
+     padding: 0px;
+ }
+h1#sideTitle {
+    font-family: sans-serif;
+}
+
+form#regform fieldset{
+    display: flex;
+    font-size: 1.3em;
+}
+form#regform fieldset label{
+    line-height: 1.5em;
+}
+div#upload {
+    background-color: rgb(255, 0, 0);
+    padding: 10px;
+}
+ul#menu li a {
+    font-family: sans-serif;
+    font-weight: bolder;
+    color: rgb(0, 0, 0);
+}
+ul#menu li a:hover {
+    
 }

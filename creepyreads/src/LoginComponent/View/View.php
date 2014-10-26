@@ -129,8 +129,8 @@ class view {
                 //$message <-- har vart i $viewToReturn...
                 $viewToReturn = "
 
-                    <p>Du är inloggad!</p>
-                    <a href='?logout'>Logga ut</a>
+                    <p>You are online!</p>
+                    <a href='?logout'>Logout</a>
                     ";
 
                 return $viewToReturn;
@@ -209,7 +209,7 @@ class view {
         //För användarnamnet
         //var_dump($_POST);
         if(@trim($_POST["name"]) == "" && @isset($_POST["name"])){
-            $message = "<p>Användarnamn saknas</p></ b>";
+            $message = "<p>Username is missing!</p></ b>";
             $currentUserName = "";
         }else{
             $message = "";
@@ -228,7 +228,7 @@ class view {
 
         //För lösenordet
         if(@trim($_POST["password"]) == "" && @isset($_POST["password"]) ){
-            $message2 = "<p>Lösenord saknas</p></ b>";
+            $message2 = "<p>Password is missing</p></ b>";
 
         }else{
             $message2 ="";
@@ -240,7 +240,7 @@ class view {
             @isset($_POST["password"]) &&
             @isset($_POST["name"])){
             $message2 = "";
-            $message = "<p>Felaktigt användarnamn och/eller lösenord</p></ b>";
+            $message = "<p>Username or password is not correct!</p></ b>";
         }
 
         //Om det finns något att hämta i vår CookieMessage-kaka så ska den presenteras
@@ -248,27 +248,27 @@ class view {
             //<!--$message3 -->
         //Htmln som ska åka ut på klienten
         $ToClient ="
-                    <h3>Ej inloggad</h3>
+                    <h3>Not online</h3>
                     <p>{$this->message}</p>
                     <form  method='post'>
-                        <fieldset>
+                        <fieldset id='login'>
                         $message
                         $message2
 
-                            <legend>Login - Skriv in användarnamn och lösenord</legend>
-                            <label for='name'>Namn</label>
+                            <legend>Login - Fill username and password</legend>
+                            <label for='name'>Username</label>
                             <input type='text' id='name' name='name' $currentUserName >
-                            <label for='pass'>Lösenord</label>
+                            <label for='pass'>Password</label>
                             <input type='password' id='pass' name='password'>
 
                         </fieldset>
-                        <input type='submit' value='Logga in' name='loginButton' >
-                        <label for='rememberme'>Håll mig inloggad.</label>
+                        <input type='submit' value='Login' name='loginButton' >
                         <input type='checkbox' name='rememberme' id='rememberme'>
+                        <label for='rememberme'>Rembember me.</label>
                     </form>
 
                     <form action='?register' method='post'>
-                        <input type='submit' name='register' value='Till Registrering'>
+                        <input type='submit' name='register' value='Register'>
                     </form>
 
                     <p>$date</p>
@@ -317,11 +317,11 @@ class view {
     public function getRegisterForm(){
 
         $ret = "
-                    <h2>You're not online, Register</h2>
-                    <a href='{$_SERVER["PHP_SELF"]}'>Tillbaka</a>
+                    <h3>You're not online, Register</h3>
+                    <a href='{$_SERVER["PHP_SELF"]}'>Back</a>
                     <p>{$this->message}</p>
                     <form action='?register' method='post' id='regform'>
-                        <fieldset>
+                        <fieldset id='register'>
                             <legend>Register - Fill in user details</legend>
                             <label for='UserNameID'>Username :</label>
                             <input type='text' size='20' name='username' id='UserNameID' value='{$this->getUserName()}'>
@@ -333,8 +333,8 @@ class view {
                             <input type='text' size='20' name='firstname' id='firstName' value='{$this->getfirstName()}'>
                             <label for='lastName'>Lastname :</label>
                             <input type='text' size='20' name='lastname' id='lastName' value='{$this->getlastName()}'>
-                            <input type='submit' name='regist' value='Register'>
                         </fieldset>
+                        <input type='submit' name='regist' value='Register'>
                     </form>
 
                     <p>{$this->date}</p>

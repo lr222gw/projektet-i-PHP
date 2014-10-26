@@ -99,7 +99,7 @@ class MasterController {
 
         $arrOfStories = array_reverse($arrOfStories); // ser till att den nyaste ligger först...
 
-        $result = $this->view->showListOfStories($arrOfStories);
+        $result = $this->view->prepareToShowListOfAllStories($arrOfStories, $this->loginController->checkForLoggedInAndReturnUserName() != false);
 
 
         return $result;
