@@ -42,6 +42,7 @@ class StoryController {
     private function getScoreAndCommentsForStory($listOfStories){
 
         for($i = 0; $i < count($listOfStories);$i++){
+
             $thisStoryCommentList = $this->db->getCommentsFromStoryID($listOfStories[$i]['storyID']);
             $thisStoryScoreData = $this->db->getScoreDataFromStoryID($listOfStories[$i]['storyID']);
 
@@ -124,4 +125,29 @@ class StoryController {
         $this->db->removeStoryFromBackpack($storyID, $userID);
     }
 
+    public function refineStory($story)
+    {
+        return nl2br($story);
+    }
+    public function refineStoryToHTML($story)
+    {
+
+        return htmlspecialchars_decode($story);
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

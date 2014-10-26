@@ -2,6 +2,7 @@
  * Created by Lowe on 2014-10-26.
  */
 function toRun(){
+
     reziseLogin();
     reziseMusicPlayer();
     allowCookies();
@@ -66,7 +67,7 @@ function reziseLogin(){
     openButton.onclick = function resize(){
         loginBox.style.display = "block";
         loginBox.appendChild(closeButton);
-        corner.removeChild(openButton);
+        document.getElementById("menu").removeChild(openButton);
         localStorage["loginStatus"] = "shown";
     }
     loginBox.appendChild(closeButton);

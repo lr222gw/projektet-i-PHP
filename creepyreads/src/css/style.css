@@ -215,14 +215,14 @@ h1#sideTitle {
     font-family: sans-serif;
 }
 
-form#regform fieldset{
+form#uploadForm fieldset, form#editForm fieldset{
     display: flex;
     font-size: 1.3em;
 }
-form#regform fieldset label{
+form#uploadForm fieldset label,form#editForm fieldset label{
     line-height: 1.5em;
 }
-div#upload {
+div#upload, div#storyToEdit {
     background-color: rgb(255, 0, 0);
     padding: 10px;
 }
@@ -326,7 +326,7 @@ and (max-device-width : 1024px) {
         padding: 5px;
         margin: 5px;
     }
-    textarea#story {
+    textarea#story, div#storyToEdit {
         width: 95%;
         height: 200px;
     }

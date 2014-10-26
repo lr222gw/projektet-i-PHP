@@ -117,9 +117,11 @@ class MasterController {
                 //om användaren har submittat så ska vi försöka spara ner datan...
                 $newStoryData = $this->view->retrieveSubmittedData();
 
+                $refinedStory = $this->storyController->refineStory($newStoryData["story"]);
+
                 $this->view->clearPost();
 
-                $this->db->addStory($this->db->getUserDetail($newStoryData["user"],2),(int)$newStoryData["language"],$newStoryData["story"],$newStoryData["title"],(int)$newStoryData["genre"],$newStoryData["author"]);
+                $this->db->addStory($this->db->getUserDetail($newStoryData["user"],2),(int)$newStoryData["language"],$refinedStory,$newStoryData["title"],(int)$newStoryData["genre"],$newStoryData["author"]);
                 $this->cookieJar->save("Your story was added!");
                 $this->view->goToFirstPage();
 

@@ -384,7 +384,7 @@ class view {
         $ret = "
         <form action='' method='post' id='confirmForm'>
             <fieldset>
-                <legend>Fill in your pass to confirm!</legend>
+                <legend>Fill in your password to confirm!</legend>
                 <label for='pass'>Password :</label>
                 <input type='password' size='100' name='pass' id='pass' required>
                 <input type='submit' name='confirmWithPass' value='Confirm!'>

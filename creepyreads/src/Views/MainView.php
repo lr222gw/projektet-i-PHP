@@ -32,7 +32,7 @@ class MainView {
     public function getStoryForView($storyToAdd, $isThisBackpack = false, $userOnline = false){
 
         $title = $storyToAdd->getTitle();
-        $story = $storyToAdd->getThisStory();
+        $story = nl2br($storyToAdd->getThisStory());
         $score = $storyToAdd->getScore();
         $score = round(floatval($score),2);
         $uploader = $storyToAdd->getUserOwner();
@@ -160,13 +160,13 @@ class MainView {
     {//$thisStoryID,$userOwner, $thisStory, $title, $genre, $langType, $score, $listOfComments = [], $otherAuthor = ""
         $ret = "<h1 id='sideTitle'>Upload Story</h1>
         <div id='upload'>
-        <form action='' method='post' id='regform'>
+        <form action='' method='post' id='uploadForm'>
             <fieldset>
                 <legend>Upload Story</legend>
                 <label for='author' >Author :</label>
                 <input type='text' size='20' name='author' id='author' placeholder='Leave blank if its you'>
                 <label for='title'>Title :</label>
-                <input type='text' size='20' name='title' id='title' required>
+                <input type='text' size='20' name='title' id='title' required maxlength='35' placeholder='Max 35 characters'>
                 <label for='genre'>Genre :</label>
                 <select name='genre'>
                   <option value=1>Gore</option>
@@ -185,7 +185,7 @@ class MainView {
                   <option value=6>RU</option>
                 </select>
                 <label for='story'>Story to submit :</label>
-                <textarea type='story' name='story'  id='story' maxlength='50000' minlength='100' required></textarea>
+                <textarea type='story' name='story'  id='story' maxlength='50000' minlength='100' required placeholder='Max 50 000 characters'></textarea>
                 <input type='submit' name='submit' value='Submit Story!'>
                 <input type='hidden' name='user' value='$user'>
             </fieldset>
@@ -382,40 +382,43 @@ class MainView {
         }
         $storyId = $editThisStory->getThisStoryID();
         $ret = "
-        <form action='' method='post' id='editForm'>
-            <fieldset>
-                <legend>Edit - Change storydetails</legend>
-                <label for='author' >Author :</label>
-                <input type='text' size='20' name='author' id='author' value='$author' placeholder='Leave blank if its you'>
-                <label for='title'>Title :</label>
-                <input type='text' size='20' name='title' id='title' required value='$title'>
-                <label for='genre'>Genre :</label>
-                <select name='genre'>
-                  <option value=1 $genre1>Gore</option>
-                  <option value=2 $genre2>The supernatural</option>
-                  <option value=3 $genre3>Lifelike</option>
-                  <option value=4 $genre4>Urban legend</option>
-                  <option value=5 $genre5>Poetry</option>
-                </select>
-                <label for='lastName'>Language :</label>
-                <select name='language'>
-                  <option value=1 $lanuage1>EN</option>
-                  <option value=2 $lanuage2>SV</option>
-                  <option value=3 $lanuage3>DE</option>
-                  <option value=4 $lanuage4>FR</option>
-                  <option value=5 $lanuage5>ES</option>
-                  <option value=6 $lanuage5>RU</option>
-                </select>
-                <label for='story'>Story to submit :</label>
-                <textarea type='story' name='story'  id='story' maxlength='50000' minlength='100' required rows='20' cols='160'>$story</textarea>
-                <input type='submit' name='changed' value='Save Changes!'>
-                <input type='hidden' name='user' value='$owner'>
-                <input type='hidden' name='storyID' value='$storyId'>
-            </fieldset>
-        </form>
-        <form action='' method='GET'>
-            <input type='submit' name='back' value='Close!'>
-        </form>
+        <h1 id='sideTitle'>Edit Story</h1>
+        <div id='storyToEdit'>
+            <form action='' method='post' id='editForm'>
+                <fieldset>
+                    <legend>Edit - Change storydetails</legend>
+                    <label for='author' >Author :</label>
+                    <input type='text' size='20' name='author' id='author' value='$author' placeholder='Leave blank if its you'>
+                    <label for='title'>Title :</label>
+                    <input type='text' size='20' name='title' id='title' required value='$title' maxlength='35' placeholder='Max 35 characters'>
+                    <label for='genre'>Genre :</label>
+                    <select name='genre'>
+                      <option value=1 $genre1>Gore</option>
+                      <option value=2 $genre2>The supernatural</option>
+                      <option value=3 $genre3>Lifelike</option>
+                      <option value=4 $genre4>Urban legend</option>
+                      <option value=5 $genre5>Poetry</option>
+                    </select>
+                    <label for='lastName'>Language :</label>
+                    <select name='language'>
+                      <option value=1 $lanuage1>EN</option>
+                      <option value=2 $lanuage2>SV</option>
+                      <option value=3 $lanuage3>DE</option>
+                      <option value=4 $lanuage4>FR</option>
+                      <option value=5 $lanuage5>ES</option>
+                      <option value=6 $lanuage5>RU</option>
+                    </select>
+                    <label for='story'>Story to submit :</label>
+                    <textarea type='story' name='story'  id='story' maxlength='50000' placeholder='Max 50 000 characters' minlength='100' required>$story</textarea>
+                    <input type='submit' name='changed' value='Save Changes!'>
+                    <input type='hidden' name='user' value='$owner'>
+                    <input type='hidden' name='storyID' value='$storyId'>
+                </fieldset>
+            </form>
+            <form action='' method='GET'>
+                <input type='submit' name='back' value='Close!'>
+            </form>
+        </div>
         ";
         return $ret;
     }
