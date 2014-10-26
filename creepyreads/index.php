@@ -16,7 +16,12 @@ $htmlview = new HTMLview();
 
 $masterController = new MasterController($htmlview);
 
-$htmlview->presentPage($masterController->getLoginModule(),$masterController->getContent(),$masterController->getUploadBox(), $masterController->getEditStories(), $masterController->getYoutubePlayer());
+$htmlview->presentPage($masterController->getLoginModule(),
+    $masterController->getContent(),
+    $masterController->getUploadBox(),
+    //$masterController->getEditStories(),
+    $masterController->getYoutubePlayer(),
+    $masterController->getMenu());
 
 /*$some = $shit->addStory(46,1,'Yoooo bitch', 'storyBoutBitch', 1);//checkIfUserNameAlreadyExist('momb');//'; DROP TABLE shit; --';
 $some = $shit->addStory(46,1,'Alfons Suger', 'OnceUpon Times in Roman', 1);

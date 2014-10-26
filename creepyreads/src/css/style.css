@@ -1,0 +1,169 @@
+body {
+    background-color: darkred;
+    margin-bottom: 2.7%;
+}
+.list, #storyView{
+    background-color: red;
+    padding: 5px;
+}
+#menu {
+    list-style: none;
+
+}
+#aboutcookie {
+    box-shadow: inset rgb(0, 0, 0) 1px 4px 8px 26px;
+}
+#menu li{
+    float: left;
+    background-color: rgb(255, 0, 0);
+    padding: 10px;
+    margin: 5px;
+}
+#loginBox{
+    float: right;
+}
+.listStoryColumn {
+    width: 60%;
+    background-color: rgb(255, 105, 105);
+    overflow-wrap: break-word;
+    margin: 5px;
+    padding: 5px;
+    padding-bottom: 20px;
+}
+.title {
+    font-size: 2em;
+    font-family: sans-serif;
+    font-weight: 700;
+    color: rgb(0, 0, 0);
+    text-transform: capitalize;
+}
+.addToBackpack {
+    background: rgb(0, 0, 0);
+    color: rgb(208, 0, 0);
+    padding: 7px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.2em;
+    margin: 5px;
+    float: right;
+    font-family: sans-serif;
+    font-weight: 700;
+}
+.addToBackpack:hover {
+    background-color: rgb(255, 255, 255);
+}
+.storyDetails {
+    line-height: 5px;
+    text-transform: capitalize;
+    font-family: sans-serif;
+    font-style: italic;
+    font-weight: 600;
+}
+.story {
+    background-color: rgb(229, 229, 229);
+    width: 98%;
+    margin: 0 auto;
+    padding: 5px;
+    overflow-wrap: break-word;
+}
+#youtubeplayer {
+    background-color: rgb(0, 0, 0);
+    padding: 10px;
+    width: 30%;
+    border-radius: 1px;
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    border-radius: 35px 0px 0px 0px;
+}
+#youtubeplayer form {
+    display: inline-flex;
+}
+.playlistchange input {
+    width: 202px;
+}
+input[type="submit"] {
+    width: 204px;
+}
+#storyView form label {
+    display: block;
+}
+#storyView form input[type="submit"] {
+    width: 160px;
+    display: list-item;
+}
+#commentSection {
+    background-color: rgb(176, 0, 0);
+    padding: 5px;
+    margin: 5px;
+}
+#commentSection textarea {
+    height: 100px;
+    width: 300px;
+}
+.comment {
+    background-color: rgba(255, 255, 255, 0.46);
+    padding: 5px;
+    margin: 10px;
+}
+#commentSection h4 {
+    margin-top: 0px;
+    font-size: 1.3em;
+    text-transform: capitalize;
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+.usercomment {
+    background-color: rgb(219, 219, 219);
+    border-top: 1px rgb(0, 0, 0) solid;
+    padding: -5;
+    margin: -5px;
+    height: 100%;
+}
+.usercomment p {
+    padding: 10px;
+    margin-top: 5px;
+}
+element.style {
+}
+div#commentBox {
+    background-color: rgba(255, 255, 255, 0.46);
+    padding: 5px;
+    margin: 10px;
+}
+#commentSection h1 {
+    padding: 5px;
+    margin: 10px;
+    margin-top: 0px;
+    font-family: sans-serif;
+    padding-bottom: 0px;
+}
+#commentBox form label {
+    display: block;
+    font-size: 2em;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+#voteBox {
+    background-color: rgb(166, 12, 12);
+    padding: 5px;
+    margin: 5px;
+    width: 60%;
+    margin-top: -5px;
+    border-top: rgb(0, 0, 0) solid 3px;
+    box-shadow: inset rgb(0, 0, 0) 10px 40px 60px -45px;
+}
+#voteBox h1{
+    font-family: sans-serif;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+#voteBox input[type="range"] {
+    width: 100%;
+}
+#storyView #voteBox form label {
+    display: block;
+    font-family: sans-serif;
+    font-size: 1.3em;
+}

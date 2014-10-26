@@ -15,13 +15,13 @@ class MainView {
     public function showListOfStories($arrOfStories, $isThisBackpack = false)
     {
 
-        $ret = '';
+        $ret = "<div class='list'>";
         for($i=0; $i<count($arrOfStories);$i++){//loopar igenom alla stories och gör dem till html
 
             $ret .= $this->getStoryForView($arrOfStories[$i], $isThisBackpack);
         }
 
-        return $ret;
+        return $ret."</div>";
     }
     public function getStoryForView($storyToAdd, $isThisBackpack = false){
 
@@ -67,18 +67,34 @@ class MainView {
     }
     public function getCommentsForStory($storyToGetComments){
 
-        $commentSection = '<h3>Comment Section</h3>';
+        $commentSection = '<h1>Comment Section</h1>';
         $commentList = $storyToGetComments->getListOfComments();
         for($i=0; $i<count($commentList); $i++){
             $comment = $commentList[$i]->getComment();
             $memberName = $commentList[$i]->getUserName();
+            if($memberName != null){
             $commentSection .= "
-            <div class='commentSection'>
-            <h4>$memberName</h4>
-            <p>$comment</p>
+            <div class='comment'>
+            <h4>$memberName wrote:</h4>
+            <div class='usercomment'>
+                <p>$comment</p>
+            </div>
+            </div>
+            ";
+            }
+
+        }
+
+        if($commentList[0]->getUserName() == null){ // om ingen kommenterat...
+            $commentSection .= "
+            <div class='comment'>
+            <h4>Sorry, no comments yet!</h4>
+
             </div>
             ";
         }
+
+
 
         return $commentSection;
     }
@@ -97,7 +113,7 @@ class MainView {
         <div id='commentBox'>
         <form method='post'>
             <label for='comment'>Write a comment</label>
-            <input type='text' name='comment'>
+            <textarea type='text' name='comment'></textarea>
             <input type='submit' name='commentButton' value='Submit!'>
         </form>
         </div>
@@ -108,7 +124,7 @@ class MainView {
 
     public function hasUserAcsessedUploadBox()
     {
-        if(isset($_POST['uploadStory'])){
+        if(isset($_GET['uploadStory'])){
             return true;
         }
         return false;
@@ -226,8 +242,8 @@ class MainView {
 
     public function didUserSelectStoryToEdit()
     {
-        if(isset($_GET["edit"])){
-            return $_GET["edit"];
+        if(isset($_POST["edit"])){
+            return $_POST["edit"];
 
         }
         return false;
@@ -247,7 +263,8 @@ class MainView {
 
     public function hasUserAccessedEdit()
     {
-        if(isset($_POST['editstories'])){
+
+        if(isset($_GET['editstories'])){
             return true;
         }
         return false;
@@ -433,7 +450,7 @@ class MainView {
     public function getVoteForStory()
     {
         $ret = "
-        <h3>Don't forget to vote!</h3>
+        <h1>Don't forget to vote!</h1>
         <form method='post'>
             <label for='Scary'>Scary</label>
             <input type='checkbox' name='ScaryBox' checked='true'>
@@ -508,9 +525,8 @@ class MainView {
     }
     public function getYTPlaylistInput(){
         $ret = "
-        <form method='post'>
-            <label for='userChangedPlaylist'>Add custom Youtube playlist-URL</label>
-            <input type='text' name='userChangedPlaylist'>
+        <form method='post' class='playlistchange'>
+            <input type='text' name='userChangedPlaylist' placeholder='Add custom Youtube playlist-URL'>
             <input type='submit' value='Change Playlist'>
         </form>
         <form method='post'>
@@ -539,6 +555,56 @@ class MainView {
         else{
             return false;
         }
+    }
+
+    public function getStoryFromStoryIDStructor($story,$isUserOnline){
+
+        $storyhtml = "<div id='storyView'>";
+        $storyhtml .= $this->getStoryForView($story);
+        if($isUserOnline != false){
+            $storyhtml .= "<div id='voteBox'>";
+            $storyhtml .= $this->getVoteForStory();
+            $storyhtml .= "</div>";
+            $storyhtml .= "<div id='commentSection'>";
+            $storyhtml .= $this->getCommentsForStory($story);
+            $storyhtml .= $this->getCommentBox();
+            $storyhtml .= "</div>";
+        }else{
+            $storyhtml .= $this->getCommentsForStory($story);
+        }
+        $storyhtml .= "</div>";
+        return $storyhtml;
+    }
+
+    public function getMenu($userIsOnline)
+    {
+        $ret = "<ul id='menu'>
+                    <li>
+                    <a href='?home'>Home</a>
+                    </li>";
+        if($userIsOnline){
+            $ret .= "
+                    <li>
+                    <a href='?backpack'>My Backpack</a>
+                    </li>
+                    <li>
+                    <a href='?editstories'>Manage Stories</a>
+                    </li>
+                    <li>
+                    <a href='?uploadStory'>Upload Story</a>
+                    </li>
+            ";
+        }
+
+        /*<form action='' method='Post'>
+            <input type='submit' name='editstories' value='Manage Stories'>
+        </form>*/
+
+
+
+        $ret .= "</ul>";
+
+        return $ret;
     }
 
 

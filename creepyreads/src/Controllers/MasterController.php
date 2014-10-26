@@ -53,16 +53,7 @@ class MasterController {
                 die;
             }
             $story = $this->storyController->getStoryFromStoryID($storyID);
-            $storyhtml = $this->view->getStoryForView($story);
-            if($this->loginController->checkForLoggedInAndReturnUserName() != false){
-                $storyhtml .= $this->view->getVoteForStory();
-                $storyhtml .= $this->view->getCommentsForStory($story);
-                $storyhtml .= $this->view->getCommentBox();
-            }else{
-                $storyhtml .= $this->view->getCommentsForStory($story);
-            }
-
-
+            $storyhtml = $this->view->getStoryFromStoryIDStructor($story,$this->loginController->checkForLoggedInAndReturnUserName());
 
             return $storyhtml;
         }
@@ -79,6 +70,7 @@ class MasterController {
 
     public function getContent(){
         $this->statusController();
+
         if($this->view->didUserOpenBackpack()){
 
             $backpackView = $this->getBackpackView();
@@ -90,6 +82,10 @@ class MasterController {
 
             $returnThis = $this->getListContent();
 
+        }
+        $edit = $this->getEditStories();
+        if($edit != null){
+            $returnThis = $edit;
         }
 
         return $returnThis;
@@ -133,7 +129,7 @@ class MasterController {
             else if($this->view->hasUserAcsessedUploadBox()){
                 return $this->view->presentUploadForm($user);
             }else{
-                return $this->view->presentUploadBox($user);
+                //return $this->view->presentUploadBox($user);
             }
         }else{
 
@@ -170,6 +166,7 @@ class MasterController {
                 $userStories = $this->storyController->getListOfStoriesFromUser($this->db->getUserDetail($user,2));
                 $theListOfuserStories = $userStories->getListOfStories();
                 $theListOfuserStories = array_reverse($theListOfuserStories);
+
                 return $this->view->showEditStories($theListOfuserStories);
             }else{
 
@@ -203,7 +200,7 @@ class MasterController {
 
                 }
 
-                return $this->view->presentEditStories();
+                //return $this->view->presentEditStories();
             }
 
         }
@@ -244,6 +241,13 @@ class MasterController {
         $player->turnOnAutoPlay($this->cookieJar->getCookieForYTAutoPlay());
 
         return $player->getPlayListPlayer().$this->view->getYTPlaylistInput();
+    }
+
+    public function getMenu()
+    {
+        $menu = $this->view->getMenu($this->loginController->checkForLoggedInAndReturnUserName() != false);
+
+        return $menu;
     }
 
 

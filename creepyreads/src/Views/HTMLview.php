@@ -10,7 +10,7 @@ class HTMLview{
         $_POST['message'] = $message;
 
     }
-    public function presentPage($loginBox, $content, $uploadstorybox, $editStories, $youTube){
+    public function presentPage($loginBox, $content, $uploadstorybox,  $youTube, $menu){//$editStories
         if(isset($_POST['message'])){
             $message = "<p id='messageToUser'>".$_POST['message']."</p>";
         }else{ $message = "";}
@@ -22,31 +22,26 @@ class HTMLview{
                 <head>
                 <meta charset=\"utf-8\" />
                 <title>CreepyReads</title>
+                <link rel='stylesheet' href='src/css/style.css'>
                 </head>
                 <body>
-                <ul id='menu'>
-                    <li>
-                    <a href='?home'>Home</a>
-                    </li>
-                    <li>
-                    <a href='?backpack'>My Backpack</a>
-                    </li>
-                </ul>
+                    $menu
                     $message
-                    <div id='editStory'>
-                    $editStories
+                    <div id='loginBox'>
+                    $loginBox
                     </div>
                     <div id='uploadStory'>
                     $uploadstorybox
                     </div>
-                    $content
-                    <div id='loginBox'>
-                    $loginBox
+                    <div id='editStory'>
+                    $editStories
                     </div>
+
+                    $content
                     <div id='youtubeplayer'>
                     $youTube
                     </div>
-                    <p style='bottom: 0; position: fixed; color: red; font-weight: bold;'>Obs, sidan använder cookies, genom att använda applikationen godkänner du cookies.</p>
+                    <p id='aboutcookie' style='bottom: 0; position: fixed; color: red; font-weight: bold;'>Obs, sidan använder cookies, genom att använda applikationen godkänner du cookies.</p>
                 </body>
                 </html>
 
