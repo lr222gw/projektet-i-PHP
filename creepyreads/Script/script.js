@@ -24,16 +24,27 @@ function toRun(){
 function loadUserStory(){
     $storyArea = document.getElementById("story");
     if($storyArea !== null){
-        $storyArea.value = localStorage["storyContent"];
-        return localStorage["storyContent"];
+
+        if($storyArea.parentNode.parentNode.id !== "editForm"){
+            $storyArea.value = localStorage["storyContent"];
+            return localStorage["storyContent"];
+        }
     }
+    return "";
 
 
 }
 function saveUserStory(){
     $storyArea = document.getElementById("story");
 
-    localStorage["storyContent"] = $storyArea.value;
+        if($storyArea !== null){
+
+            if($storyArea.parentNode.parentNode.id !== "editForm"){
+                localStorage["storyContent"] = $storyArea.value;
+            }
+        }
+
+
 
 }
 
@@ -124,7 +135,7 @@ function userChangeStoryView(){
         var bigLineHeightButton = document.createElement("BUTTON");
         bigLineHeightButton.innerHTML = "Bigger Line Height";
         bigLineHeightButton.onclick = function(){
-            localStorage["lineHeight"] = parseFloat(localStorage["lineHeight"]) +0.5;
+            localStorage["lineHeight"] = parseFloat(localStorage["lineHeight"]) +1;
             storyToChange.style.lineHeight = localStorage["lineHeight"]+"px";
         }
 
@@ -132,7 +143,7 @@ function userChangeStoryView(){
         SmallLineHeightButton.innerHTML = "Smaller Line Height";
         SmallLineHeightButton.onclick = function(){
             if(parseInt(localStorage["lineHeight"]) > 15 ){
-                localStorage["lineHeight"] = parseFloat(localStorage["lineHeight"]) -0.5;
+                localStorage["lineHeight"] = parseFloat(localStorage["lineHeight"]) -1;
                 storyToChange.style.lineHeight = localStorage["lineHeight"]+"px";
             }
         }
