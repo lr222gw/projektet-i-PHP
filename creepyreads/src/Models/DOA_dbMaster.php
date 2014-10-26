@@ -41,7 +41,12 @@ class DOA_dbMaster{
                 }
                 $databaseHandler->commit();
                 return true;
-            }else{ if($stmt->execute($paramsArr)){$databaseHandler->commit(); return $stmt;}; }
+            }else{
+                if($stmt->execute($paramsArr)){
+                    $databaseHandler->commit();
+                    return $stmt;
+                }
+            }
             $databaseHandler->rollBack();
             return false;
 
@@ -50,6 +55,7 @@ class DOA_dbMaster{
             return $result;
         }catch(PDOException $e) {
             $databaseHandler->rollBack();
+            throw new \Exception("Sorry Database Error..." . $e->getMessage());
             die("Sorry Database Error..." . $e->getMessage());
         }
     }
@@ -322,7 +328,8 @@ where storyID = ?;";
 
         }catch(PDOException $e) {
             $databaseHandler->rollBack();
-            die("Sorry Database Error..." . $e->getMessage());
+            throw new \Exception("Sorry Database Error..." . $e->getMessage());
+            die();
         }
 
     }

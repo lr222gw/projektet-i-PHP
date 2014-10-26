@@ -71,6 +71,7 @@ fieldset#login, fieldset#register  {
 }
 .story {
     background-color: rgb(229, 229, 229);
+    display: inline-block;
     width: 98%;
     margin: 0 auto;
     padding: 5px;

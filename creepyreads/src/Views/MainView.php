@@ -468,20 +468,20 @@ class MainView {
         <h1>Don't forget to vote!</h1>
         <form method='post'>
             <label for='Scary'>Scary</label>
-            <input type='checkbox' name='ScaryBox' checked='true'>
-            <input type='range' name='Scary' min='1' max='10' step='1' value='5'>
+            <input id='checkScary' type='checkbox' name='ScaryBox' checked='true'>
+            <input id='slideScary' type='range' name='Scary' min='1' max='10' step='1' value='5'>
             <label for='Readability'>Readability</label>
-            <input type='checkbox' name='ReadabilityBox' >
-            <input type='range' name='Readability' min='1' max='10' step='1' value='5'>
+            <input id='checkRead' type='checkbox' name='ReadabilityBox' >
+            <input id='slideRead' type='range' name='Readability' min='1' max='10' step='1' value='5'>
             <label for='Shivers'>Shivers</label>
-            <input type='checkbox' name='ShiversBox'>
-            <input type='range' name='Shivers' min='1' max='10' step='1' value='5'>
+            <input id='checkShiver' type='checkbox' name='ShiversBox'>
+            <input id='slideShiver' type='range' name='Shivers' min='1' max='10' step='1' value='5'>
             <label for='Unique'>Unique</label>
-            <input type='checkbox' name='UniqueBox' >
-            <input type='range' name='Unique' min='1' max='10' step='1' value='5'>
+            <input id='checkUnique' type='checkbox' name='UniqueBox' >
+            <input id='slideUnique' type='range' name='Unique' min='1' max='10' step='1' value='5'>
             <label for='Correspondgenre'>Corresponds to the genre</label>
-            <input type='checkbox' name='CorrespondgenreBox' >
-            <input type='range' name='Correspondgenre' min='1' max='10' step='1' value='5'>
+            <input id='checkCorresp' type='checkbox' name='CorrespondgenreBox' >
+            <input id='slideCorresp' type='range' name='Correspondgenre' min='1' max='10' step='1' value='5'>
             <input type='submit' value='Place vote!' name='voted'>
         </form>
         ";

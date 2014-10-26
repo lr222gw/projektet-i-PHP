@@ -6,7 +6,41 @@ function toRun(){
     reziseLogin();
     reziseMusicPlayer();
     allowCookies();
+    didUserActivateVoteSlide();
 }
+
+function didUserActivateVoteSlide(){
+    var slideScary = document.getElementById("slideScary");
+    var checkScary = document.getElementById("checkScary");
+    var slideRead = document.getElementById("slideRead");
+    var checkRead = document.getElementById("checkRead");
+    var slideShiver = document.getElementById("slideShiver");
+    var checkShiver = document.getElementById("checkShiver");
+    var slideUnique = document.getElementById("slideUnique");
+    var checkUnique = document.getElementById("checkUnique");
+    var slideCorresp = document.getElementById("slideCorresp");
+    var checkCorresp = document.getElementById("checkCorresp");
+
+    slideScary.onclick = function(){
+        checkScary.setAttribute("checked", "true")
+    }
+    slideRead.onclick = function(){
+        checkRead.setAttribute("checked", "true")
+    }
+    slideShiver.onclick = function(){
+        checkShiver.setAttribute("checked", "true")
+    }
+    slideCorresp.onclick = function(){
+        checkCorresp.setAttribute("checked", "true")
+    }
+    slideUnique.onclick = function(){
+        checkUnique.setAttribute("checked", "true")
+    }
+
+
+
+}
+
 function allowCookies(){
     if(localStorage["cookieAgreement"] !== "true"){
         localStorage["cookieAgreement"] = confirm("To use this site you must accept cookies. Agree?");
@@ -18,11 +52,11 @@ function reziseMusicPlayer(){
     var youtubeplayer = document.getElementById("youtubeplayer");
     var closeButton = document.createElement("BUTTON");
     var corner = document.getElementById("body");
-    closeButton.innerText="Close";
+    closeButton.innerHTML ="Close";
 
     var openButton = document.createElement("BUTTON");
     openButton.style.float = "right";
-    openButton.innerText="Open Music player";
+    openButton.innerHTML="Open Music player";
     openButton.style.position = "fixed";
     openButton.style.bottom = "0";
     openButton.style.right = "0";
@@ -52,11 +86,11 @@ function reziseLogin(){
     var loginBox = document.getElementById("loginBox");
     var closeButton = document.createElement("BUTTON");
     var corner = document.getElementById("body");
-    closeButton.innerText="Close";
+    closeButton.innerHTML ="Close";
 
     var openButton = document.createElement("BUTTON");
     openButton.style.float = "right";
-    openButton.innerText="Open Login";
+    openButton.innerHTML="Open Login";
     openButton.className = "openLoginButton";
 
     closeButton.onclick = function resize(){

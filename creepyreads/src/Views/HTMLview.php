@@ -22,6 +22,7 @@ class HTMLview{
     public function presentPage($loginBox, $content, $uploadstorybox,  $youTube, $menu){//$editStories
         $message1 = $this->cookieJar->load();
 
+
         if($message1 != null){
             $message = "<p id='messageToUser'>$message1</p>";//$_POST['message']
         }else{ $message = "";}
